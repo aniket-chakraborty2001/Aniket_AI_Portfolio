@@ -5,6 +5,7 @@ import Navbar from "@/src/components/Navbar";
 import About from "@/src/components/About";
 import Skills from "@/src/components/Skills";
 import Project from "@/src/components/Projects";
+import Education from "@/src/components/Education";
 
 
 export default function Page() {
@@ -14,7 +15,8 @@ export default function Page() {
       <Home />
       <About />
       <Skills />
-      < Project />
+      <Project />
+      <Education />
     </>
   );
 }
