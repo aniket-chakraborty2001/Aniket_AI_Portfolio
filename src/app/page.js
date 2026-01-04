@@ -8,10 +8,12 @@ import Projects from "@/src/components/Projects";
 import Education from "@/src/components/Education";
 import Internship from "@/src/components/Internship";  
 import Certificates from "@/src/components/Certificates";
+import Welcome from "@/src/components/Welcome";
 
 export default function Page() {
   return (
     <>
+      <Welcome />
       <Navbar />
       <Home />
       <About />
