@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+"use client";
 
+import React, { useState, useEffect } from 'react';
+import { Github, Linkedin, Download } from "lucide-react";
 
 const NAVBAR_HEIGHT = 90;
 
@@ -53,7 +55,7 @@ const Navbar = () => {
           scrolled ? 'py-3' : 'py-5'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="w-full px-10">
           <div
             className={`glass-navbar rounded-full px-8 py-4 flex items-center justify-between transition-all duration-300 ${
               scrolled ? 'shadow-glow-strong' : 'shadow-glow'
@@ -77,12 +79,7 @@ const Navbar = () => {
                 <li key={item.id} className="nav-item-wrapper">
                   <button
                     onClick={() => scrollToSection(item.id)}
-                    className={`nav-item relative px-5 py-2.5 rounded-full font-medium transition-all duration-300 ${
-                      activeSection === item.id
-                        ? 'text-white'
-                        : 'text-gray-300 hover:text-yellow-400'
-                    }`}
-                    style={{ animationDelay: `${index * 0.1}s` }}
+                    className="nav-item relative px-5 py-2.5 rounded-full font-semibold transition-all duration-300 text-yellow-400"
                   >
                     {/* Active indicator background */}
                     {activeSection === item.id && (
@@ -98,7 +95,7 @@ const Navbar = () => {
                     </span>
 
                     {/* Text */}
-                    <span className="relative z-10 text-sm tracking-wide">
+                    <span className="relative z-10 text-lg md:text-lg tracking-wide">
                       {item.label}
                     </span>
 
@@ -108,6 +105,41 @@ const Navbar = () => {
                 </li>
               ))}
             </ul>
+
+            {/* Right-side actions */}
+            <div className="flex items-center gap-4 ml-6">
+            {/* GitHub */}
+            <a
+              href="https://github.com/aniket-chakraborty2001"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="icon-btn"
+              aria-label="GitHub"
+            >
+              <Github size={26} />  
+            </a>
+
+            {/* LinkedIn */}
+            <a
+              href="https://www.linkedin.com/in/aniket-chakraborty20022001/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="icon-btn"
+              aria-label="LinkedIn"
+            >
+              <Linkedin size={26} />
+            </a>
+
+            {/* Resume */}
+            <a
+              href="/resume/Aniket_Chakraborty_Resume.pdf"
+              download
+              className="icon-btn resume-btn"
+              aria-label="Download Resume"
+            >
+              <Download size={26} />
+            </a>
+            </div>
           </div>
         </div>
       </nav>
@@ -193,6 +225,35 @@ const Navbar = () => {
             opacity: 1;
             transform: scale(1);
           }
+        }
+        .icon-btn {
+          width: 40px;
+          height: 40px;
+          border-radius: 9999px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          background: rgba(139, 92, 246, 0.25);
+          transition: all 0.3s ease;
+        }
+
+        .icon-btn:hover {
+          background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+          box-shadow:
+            0 0 15px rgba(6, 182, 212, 0.6),
+            0 0 25px rgba(139, 92, 246, 0.5);
+          transform: translateY(-2px) scale(1.05);
+        }
+
+        .resume-btn {
+          background: linear-gradient(135deg, #22c55e, #16a34a);
+        }
+
+        .resume-btn:hover {
+          box-shadow:
+            0 0 15px rgba(34, 197, 94, 0.6),
+            0 0 25px rgba(22, 163, 74, 0.5);
         }
 
         .animate-fade-in {

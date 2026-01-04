@@ -12,6 +12,8 @@ const Home = () => {
   const fullText = "Hi, I am an AI/ML Professional";
   const [displayText, setDisplayText] = useState("");
   const [showCursor, setShowCursor] = useState(true);
+  const [typingDone, setTypingDone] = useState(false);
+
 
   /* =======================
      Typing Animation
@@ -25,6 +27,8 @@ const Home = () => {
 
       if (index >= fullText.length) {
         clearInterval(typingInterval);
+        setTypingDone(true);
+        setShowCursor(false);
       }
     }, 80);
 
@@ -35,12 +39,14 @@ const Home = () => {
      Blinking Cursor
   ======================= */
   useEffect(() => {
+    if (typingDone) return;
+    
     const cursorInterval = setInterval(() => {
       setShowCursor((prev) => !prev);
     }, 500);
 
     return () => clearInterval(cursorInterval);
-  }, []);
+  }, [typingDone]);
 
   /* =======================
      Canvas Background
