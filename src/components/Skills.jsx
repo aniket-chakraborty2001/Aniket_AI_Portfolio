@@ -85,7 +85,7 @@ const Skills = () => {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Title */}
         <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-400 inline-block animate-gradient bg-300%">
+          <h2 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-purple-400 to-yellow-400 inline-block animate-gradient bg-300% leading-[1.2] pb-2">
             Skills & Technologies
           </h2>
           <div className="h-1 w-32 bg-gradient-to-r from-purple-500 to-cyan-600 mx-auto mt-4 rounded-full" />

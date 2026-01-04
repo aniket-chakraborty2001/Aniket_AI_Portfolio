@@ -114,7 +114,7 @@ const Projects = () => {
 
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
+          <h2 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-purple-400 to-yellow-400 inline-block animate-gradient bg-300% leading-[1.2] pb-2">
             Experience & Projects
           </h2>
           <p className="text-gray-400 mt-4">
@@ -365,7 +365,21 @@ const Projects = () => {
             0 0 20px rgba(6, 182, 212, 0.6);
           transform: scale(1.4);
         }
-          
+        
+        @keyframes gradient { 
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+
+        .animate-gradient {
+          animation: gradient 4s ease infinite;
+        }
+
+        .bg-300\% {
+          background-size: 300%;
+        }
+
       `}</style>
     </section>
   );

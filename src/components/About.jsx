@@ -43,7 +43,7 @@ const About = () => {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent animate-gradient bg-300%">
+          <h2 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-purple-400 to-yellow-400 inline-block animate-gradient bg-300%">
             About Me
           </h2>
           <div className="h-1 w-32 bg-gradient-to-r from-cyan-500 to-purple-600 mx-auto mt-4 rounded-full" />
@@ -190,8 +190,22 @@ const About = () => {
           50% { transform: translateY(-20px); }
         }
 
+        @keyframes gradient {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+
+        .animate-gradient {
+          animation: gradient 4s ease infinite;
+        }
+
         .animate-float {
           animation: float 8s ease-in-out infinite;
+        }
+
+        .bg-300\% {
+          background-size: 300%;
         }
 
         .animate-float-delayed {
