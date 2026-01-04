@@ -285,13 +285,14 @@ const Skills = () => {
           position: relative;
           cursor: pointer;
           perspective: 1000px;
-           margin-bottom: 1rem;
+          margin-bottom: 1rem;
+          width: 100%;
+          aspect-ratio: 1 / 1;
         }
 
         .skill-card-inner {
-          position: relative;
-          width: 100%;
-          padding-bottom: 100%;
+          position: absolute;
+          inset: 0;
           transition: transform 0.6s;
           transform-style: preserve-3d;
         }
