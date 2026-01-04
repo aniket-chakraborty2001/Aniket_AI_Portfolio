@@ -178,7 +178,7 @@ const Home = () => {
 
         {/* Badges */}
         <div className="flex justify-center gap-4 mb-10 flex-wrap">
-          <div className="flex items-center gap-2 px-6 py-3 bg-purple-700 rounded-full text-white">
+          <div className="flex items-center gap-2 px-6 py-3 bg-yellow-500 rounded-full text-black">
             <Briefcase size={18} />
             Webbies
           </div>
@@ -209,7 +209,7 @@ const Home = () => {
         {/* CTA */}
         <button
           onClick={scrollToAbout}
-          className="px-8 py-4 bg-yellow-400 text-black font-bold rounded-full hover:scale-105 transition"
+          className="px-8 py-4 bg-yellow-400 text-black font-bold rounded-full hover:scale-105 transition cursor-pointer"
         >
           Learn More About Me
         </button>

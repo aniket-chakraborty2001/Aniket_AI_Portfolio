@@ -63,7 +63,7 @@ const Navbar = () => {
           >
             {/* Logo/Brand */}
             <div className="flex items-center">
-              <div className="relative group cursor-pointer">
+              <div className="relative group">
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-full blur-md opacity-50 group-hover:opacity-75 transition-opacity duration-300" />
                 <div className="relative bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold text-2xl px-6 py-2 rounded-full">
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-cyan-200">
@@ -79,7 +79,7 @@ const Navbar = () => {
                 <li key={item.id} className="nav-item-wrapper">
                   <button
                     onClick={() => scrollToSection(item.id)}
-                    className="nav-item relative px-5 py-2.5 rounded-full font-semibold transition-all duration-300 text-yellow-400"
+                    className="nav-item relative px-5 py-2.5 rounded-full font-semibold transition-all duration-300 text-yellow-400 cursor-pointer"
                   >
                     {/* Active indicator background */}
                     {activeSection === item.id && (
