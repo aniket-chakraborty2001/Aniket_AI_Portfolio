@@ -108,37 +108,48 @@ const Navbar = () => {
 
             {/* Right-side actions */}
             <div className="flex items-center gap-4 ml-6">
+            
             {/* GitHub */}
-            <a
-              href="https://github.com/aniket-chakraborty2001"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="icon-btn"
-              aria-label="GitHub"
-            >
-              <Github size={26} />  
-            </a>
+            <div className="tooltip-wrapper">
+              <a
+                href="https://github.com/aniket-chakraborty2001"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="icon-btn"
+                aria-label="GitHub"
+              >
+                <Github size={26} />  
+              </a>
+              <span className="tooltip">GitHub</span>
+            </div>
 
             {/* LinkedIn */}
-            <a
-              href="https://www.linkedin.com/in/aniket-chakraborty20022001/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="icon-btn"
-              aria-label="LinkedIn"
-            >
-              <Linkedin size={26} />
-            </a>
+            <div className="tooltip-wrapper">
+              <a
+                href="https://www.linkedin.com/in/aniket-chakraborty20022001/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="icon-btn"
+                aria-label="LinkedIn"
+              >
+                <Linkedin size={26} />
+              </a>
+              <span className="tooltip">LinkedIn</span>
+            </div>
 
             {/* Resume */}
-            <a
-              href="/resume/Aniket_Chakraborty_Resume.pdf"
-              download
-              className="icon-btn resume-btn"
-              aria-label="Download Resume"
-            >
-              <Download size={26} />
-            </a>
+            <div className="tooltip-wrapper">
+              <a
+                href="/resume/Aniket_Chakraborty_Resume.pdf"
+                download
+                className="icon-btn resume-btn"
+                aria-label="Download Resume"
+              >
+                <Download size={26} />
+              </a>
+              <span className="tooltip">Resume</span>
+            </div>
+
             </div>
           </div>
         </div>
@@ -236,6 +247,53 @@ const Navbar = () => {
           color: white;
           background: rgba(139, 92, 246, 0.25);
           transition: all 0.3s ease;
+        }
+
+        .tooltip-wrapper {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        /* Tooltip Bubble */
+        .tooltip {
+          position: absolute;
+          bottom: -45px;
+          left: 50%;
+          transform: translateX(-50%) translateY(5px);
+          background: linear-gradient(135deg, #a4c452ff, #75302bff);
+          color: black;
+          font-size: 0.85rem;
+          font-weight: 800;
+          padding: 6px 12px;
+          border-radius: 9999px;
+          white-space: nowrap;
+          opacity: 0;
+          pointer-events: none;
+          transition: all 0.3s ease;
+          box-shadow:
+            0 4px 15px rgba(6, 182, 212, 0.4),
+            0 0 20px rgba(139, 92, 246, 0.3);
+          z-index: 50;
+        }
+
+        /* Tooltip Arrow */
+        .tooltip::before {
+          content: '';
+          position: absolute;
+          top: -6px;
+          left: 50%;
+          transform: translateX(-50%);
+          border-left: 6px solid transparent;
+          border-right: 6px solid transparent;
+          border-bottom: 6px solid #06b6d4;
+        }
+
+        /* Show tooltip on hover */
+        .tooltip-wrapper:hover .tooltip {
+          opacity: 1;
+          transform: translateX(-50%) translateY(0);
         }
 
         .icon-btn:hover {

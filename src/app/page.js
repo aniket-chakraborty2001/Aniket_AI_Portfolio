@@ -9,6 +9,7 @@ import Education from "@/src/components/Education";
 import Internship from "@/src/components/Internship";  
 import Certificates from "@/src/components/Certificates";
 import Welcome from "@/src/components/Welcome";
+import Contact from "@/src/components/Contact";
 
 export default function Page() {
   return (
@@ -22,6 +23,7 @@ export default function Page() {
       <Education />
       <Internship />
       <Certificates />
+      <Contact />
 
     </>
   );
