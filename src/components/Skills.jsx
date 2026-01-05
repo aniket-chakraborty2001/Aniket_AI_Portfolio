@@ -1,47 +1,67 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
+import { ChevronLeft, ChevronRight, Calendar, TrendingUp } from 'lucide-react';
 
 const Skills = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [hoveredSkill, setHoveredSkill] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const sectionRef = useRef(null);
+  const autoPlayRef = useRef(null);
 
-  // Array of 29 skills with their icon filenames
+  // Array of skills with timeline and experience
   const SKILLS = [
-  { name: "Python", icon: "/python.png" },
-  { name: "Numpy", icon: "/numpy.png" },
-  { name: "Pandas", icon: "/pandas.png" },
-  { name: "Matplotlib", icon: "/matplotlib.png" },
-  { name: "Seaborn", icon: "/seaborn.png" },
-  { name: "Statsmodel", icon: "/statsmodel.png" },
-  { name: "Scipy", icon: "/scipy.png" },
-  { name: "Scikit-learn", icon: "/scikitlearn.png" },
-  { name: "OpenCV", icon: "/opencv.png" },
-  { name: "PIL", icon: "/pillow.png" },
-  { name: "Tensorflow", icon: "/tensorFlow.png" },
-  { name: "Streamlit", icon: "/streamlit.png" },
-  { name: "Pytorch", icon: "/pytorch.png" },
-  { name: "MSSQL", icon: "/mssql.png" },
-  { name: "MYSQL", icon: "/mysql.png" },
-  { name: "Dash", icon: "/plotly.png" },
-  { name: "Hugging face", icon: "/hf.png" },
-  { name: "GitHub", icon: "/git.png" },
-  { name: "Flask Server", icon: "/flask.png" },
-  { name: "Docker", icon: "/docker.png" },
-  { name: "Redis", icon: "/redis.png" },
-  { name: "Cassandra", icon: "/cassandra.png" },
-  { name: "Prometheus", icon: "/prometheus.png" },
-  { name: "Kafka", icon: "/kafka.png" },
-  { name: "Langchain", icon: "/langchain.png" },
-  { name: 'Ultralytics', icon: "/ultralytics.png"},
-  { name: 'Llama', icon: "/llama.png"},
-  { name: 'OpenAI', icon: "/openai.png"},
-  { name: 'Gemini', icon: "/gemini.png"},
-  { name: 'VS Code', icon: "/vscode.png"},
-  { name: 'Jupyter', icon: "/jupyter.png"},
-  { name: 'Google Colab', icon: "/googlecolab.png"}
-];
+    { name: "Python", icon: "/python.png", timeline: "5+ Years", experience: "high" },
+    { name: "Numpy", icon: "/numpy.png", timeline: "3+ Years", experience: "high" },
+    { name: "Pandas", icon: "/pandas.png", timeline: "3+ Years", experience: "high" },
+    { name: "Matplotlib", icon: "/matplotlib.png", timeline: "3+ Years", experience: "high" },
+    { name: "Seaborn", icon: "/seaborn.png", timeline: "3+ Years", experience: "high" },
+    { name: "Statsmodel", icon: "/statsmodel.png", timeline: "1+ Years", experience: "medium" },
+    { name: "Scipy", icon: "/scipy.png", timeline: "1+ Years", experience: "medium" },
+    { name: "Scikit-learn", icon: "/scikitlearn.png", timeline: "3+ Years", experience: "high" },
+    { name: "OpenCV", icon: "/opencv.png", timeline: "1.5+ Years", experience: "high" },
+    { name: "Pillow", icon: "/pillow.png", timeline: "1+ Years", experience: "high" },
+    { name: "Tensorflow", icon: "/tensorFlow.png", timeline: "1.5+ Years", experience: "high" },
+    { name: "Streamlit", icon: "/streamlit.png", timeline: "1+ Years", experience: "medium" },
+    { name: "Pytorch", icon: "/pytorch.png", timeline: "1+ Years", experience: "high" },
+    { name: "MSSQL", icon: "/mssql.png", timeline: "2+ Years", experience: "medium" },
+    { name: "MYSQL", icon: "/mysql.png", timeline: "2+ Years", experience: "medium" },
+    { name: "Dash", icon: "/plotly.png", timeline: "1+ Years", experience: "basic" },
+    { name: "Hugging face", icon: "/hf.png", timeline: "1+ Years", experience: "high" },
+    { name: "GitHub", icon: "/git.png", timeline: "2+ Years", experience: "high" },
+    { name: "Flask Server", icon: "/flask.png", timeline: "1+ Years", experience: "medium" },
+    { name: "Docker", icon: "/docker.png", timeline: "3 Months", experience: "basic" },
+    { name: "Redis", icon: "/redis.png", timeline: "3 Months", experience: "basic" },
+    { name: "Cassandra", icon: "/cassandra.png", timeline: "3 Months", experience: "basic" },
+    { name: "Prometheus", icon: "/prometheus.png", timeline: "3 Months", experience: "basic" },
+    { name: "Kafka", icon: "/kafka.png", timeline: "3 Months", experience: "basic" },
+    { name: "Langchain", icon: "/langchain.png", timeline: "1+ Years", experience: "medium" },
+    { name: 'Ultralytics', icon: "/ultralytics.png", timeline: "1+ Years", experience: "high" },
+    { name: 'Llama', icon: "/llama.png", timeline: "1+ Years", experience: "high" },
+    { name: 'OpenAI', icon: "/openai.png", timeline: "1+ Years", experience: "high" },
+    { name: 'Gemini', icon: "/gemini.png", timeline: "1+ Years", experience: "high" },
+    { name: 'VS Code', icon: "/vscode.png", timeline: "5+ Years", experience: "high" },
+    { name: 'Jupyter', icon: "/jupyter.png", timeline: "5+ Years", experience: "high" },
+    { name: 'Google Colab', icon: "/googlecolab.png", timeline: "3+ Years", experience: "high" }
+  ];
+
+  const getExperienceColor = (exp) => {
+    switch(exp) {
+      case 'high': return '#10b981'; // green
+      case 'medium': return '#eab308'; // yellow
+      case 'basic': return '#06b6d4'; // cyan
+      default: return '#8b5cf6'; // purple
+    }
+  };
+
+  const getExperienceLabel = (exp) => {
+    switch(exp) {
+      case 'high': return 'Expert';
+      case 'medium': return 'Intermediate';
+      case 'basic': return 'Beginner';
+      default: return 'Learning';
+    }
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -64,6 +84,54 @@ const Skills = () => {
     };
   }, []);
 
+  // Auto-play carousel
+  useEffect(() => {
+    autoPlayRef.current = setInterval(() => {
+      nextSkill();
+    }, 2000);
+
+    return () => {
+      if (autoPlayRef.current) {
+        clearInterval(autoPlayRef.current);
+      }
+    };
+  }, [currentIndex]);
+
+  const nextSkill = () => {
+    setCurrentIndex((prev) => (prev + 1) % SKILLS.length);
+  };
+
+  const prevSkill = () => {
+    setCurrentIndex((prev) => (prev - 1 + SKILLS.length) % SKILLS.length);
+  };
+
+  const handleManualChange = (callback) => {
+    if (autoPlayRef.current) {
+      clearInterval(autoPlayRef.current);
+    }
+    callback();
+    autoPlayRef.current = setInterval(nextSkill, 2000);
+  };
+
+  // Get visible skills (current and surrounding)
+  const getVisibleSkills = () => {
+    const visible = [];
+    const total = SKILLS.length;
+    
+    for (let i = -2; i <= 2; i++) {
+      const index = (currentIndex + i + total) % total;
+      visible.push({
+        ...SKILLS[index],
+        offset: i,
+        index: index
+      });
+    }
+    
+    return visible;
+  };
+
+  const visibleSkills = getVisibleSkills();
+
   return (
     <section
       id="skills"
@@ -85,7 +153,7 @@ const Skills = () => {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Title */}
         <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-purple-400 to-yellow-400 inline-block animate-gradient bg-300% leading-[1.2] pb-2">
+          <h2 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-purple-400 to-yellow-400 inline-block animated-gradient-text bg-300% leading-[1.2] pb-2">
             Skills & Technologies
           </h2>
           <div className="h-1 w-32 bg-gradient-to-r from-purple-500 to-cyan-600 mx-auto mt-4 rounded-full" />
@@ -94,109 +162,103 @@ const Skills = () => {
           </p>
         </div>
 
-        {/* Skills Grid */}
-        <div className="relative">
-          {/* Animated connection lines background */}
-          <div className="absolute inset-0 pointer-events-none">
-            <svg className="w-full h-full opacity-10">
-              <defs>
-                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#06b6d4" />
-                  <stop offset="100%" stopColor="#8b5cf6" />
-                </linearGradient>
-              </defs>
-              {/* Animated connecting lines */}
-              {[...Array(5)].map((_, i) => (
-                <line
-                  key={i}
-                  x1="0%"
-                  y1={`${20 * i}%`}
-                  x2="100%"
-                  y2={`${20 * (i + 1)}%`}
-                  stroke="url(#lineGradient)"
-                  strokeWidth="1"
-                  className="animate-line-draw"
-                  style={{ animationDelay: `${i * 0.2}s` }}
-                />
-              ))}
-            </svg>
-          </div>
+        {/* Skills Carousel */}
+        <div className="carousel-container mb-16">
+          {/* Navigation Buttons */}
+          <button
+            onClick={() => handleManualChange(prevSkill)}
+            className="carousel-nav-btn carousel-nav-left"
+            aria-label="Previous skill"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
 
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-6 relative">
-            {SKILLS.map((skill, index) => (
+          <button
+            onClick={() => handleManualChange(nextSkill)}
+            className="carousel-nav-btn carousel-nav-right"
+            aria-label="Next skill"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+
+          {/* Skills Display */}
+          <div className="skills-carousel">
+            {visibleSkills.map((skill, idx) => (
               <div
-                key={index}
-                className={`skill-card transition-all duration-700 ${
-                  isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-50'
-                }`}
+                key={skill.index}
+                className={`carousel-skill ${skill.offset === 0 ? 'carousel-skill-active' : ''}`}
                 style={{
-                  transitionDelay: `${index * 0.05}s`
+                  transform: `translateX(${skill.offset * 140}px) scale(${skill.offset === 0 ? 1.5 : 0.7})`,
+                  zIndex: skill.offset === 0 ? 10 : 5 - Math.abs(skill.offset),
+                  opacity: Math.abs(skill.offset) > 1 ? 0.3 : 1
                 }}
-                onMouseEnter={() => setHoveredSkill(index)}
-                onMouseLeave={() => setHoveredSkill(null)}
               >
-                <div className="skill-card-inner">
-                  {/* Rotating border effect */}
-                  <div className="skill-card-border" />
-                  
-                  {/* Card content */}
-                  <div className="skill-card-content">
-                    {/* Icon container */}
-                    <div className="skill-icon-wrapper">
-                      <img
-                        src={`/icons/${skill.icon}`}
-                        alt={skill.name}
-                        className="skill-icon"
-                        onError={(e) => {
-                          // Fallback if image doesn't load
-                          e.target.style.display = 'none';
-                          e.target.nextSibling.style.display = 'flex';
-                        }}
-                      />
-                      {/* Fallback icon */}
-                      <div className="skill-icon-fallback" style={{ display: 'none' }}>
-                        <svg className="w-12 h-12 text-cyan-400" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/>
-                        </svg>
-                      </div>
-                    </div>
-
-                    {/* Skill name tooltip */}
-                    <div className={`skill-name ${hoveredSkill === index ? 'skill-name-visible' : ''}`}>
-                      {skill.name}
-                    </div>
-
-                    {/* Hover glow effect */}
-                    <div className="skill-glow" />
+                <div className="skill-carousel-card">
+                  <div className="skill-carousel-border" />
+                  <div className="skill-carousel-content">
+                    <img
+                      src={`/icons/${skill.icon}`}
+                      alt={skill.name}
+                      className="skill-carousel-icon"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                      }}
+                    />
                   </div>
                 </div>
-
-                {/* Particle effect on hover */}
-                {hoveredSkill === index && (
-                  <div className="skill-particles">
-                    {[...Array(8)].map((_, i) => (
-                      <div
-                        key={i}
-                        className="particle"
-                        style={{
-                          '--angle': `${(360 / 8) * i}deg`,
-                          animationDelay: `${i * 0.1}s`
-                        }}
-                      />
-                    ))}
-                  </div>
-                )}
               </div>
             ))}
+          </div>
+
+          {/* Skill Details */}
+          <div className="skill-details">
+            <h3 className="skill-details-name">{SKILLS[currentIndex].name}</h3>
+            
+            <div className="skill-details-info">
+              <div className="skill-info-item">
+                <Calendar className="w-5 h-5 text-cyan-400" />
+                <span className="skill-info-label">Timeline:</span>
+                <span className="skill-info-value">{SKILLS[currentIndex].timeline}</span>
+              </div>
+
+              <div className="skill-info-item">
+                <TrendingUp 
+                  className="w-5 h-5" 
+                  style={{ color: getExperienceColor(SKILLS[currentIndex].experience) }}
+                />
+                <span className="skill-info-label">Experience:</span>
+                <span 
+                  className="skill-info-value skill-experience-badge"
+                  style={{ 
+                    color: getExperienceColor(SKILLS[currentIndex].experience),
+                    borderColor: getExperienceColor(SKILLS[currentIndex].experience)
+                  }}
+                >
+                  {getExperienceLabel(SKILLS[currentIndex].experience)}
+                </span>
+              </div>
+            </div>
+
+            {/* Progress Dots */}
+            <div className="carousel-dots">
+              {SKILLS.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleManualChange(() => setCurrentIndex(index))}
+                  className={`carousel-dot ${currentIndex === index ? 'carousel-dot-active' : ''}`}
+                  aria-label={`Go to skill ${index + 1}`}
+                />
+              ))}
+            </div>
           </div>
         </div>
 
         {/* Stats Section */}
         <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
           {[
-            { number: '30+', label: 'Technologies', color: 'cyan' },
-            { number: '1+', label: 'Years Experience', color: 'purple' },
-            { number: '40+', label: 'Projects Built', color: 'yellow' },
+            { number: '32+', label: 'Technologies', color: 'cyan' },
+            { number: '2+', label: 'Years Experience', color: 'purple' },
+            { number: '50+', label: 'Projects Built', color: 'yellow' },
             { number: '∞', label: 'Learning Never Stops', color: 'pink' }
           ].map((stat, index) => (
             <div
@@ -257,206 +319,232 @@ const Skills = () => {
           animation: gradient 4s ease infinite;
         }
 
-        .bg-300\% {
-          background-size: 300%;
+        .animated-gradient-text {
+          background-size: 300% 300%;
+          -webkit-background-clip: text;
+          background-clip: text;
+          animation: gradient 4s ease infinite;
         }
 
-        /* Line Draw Animation */
-        @keyframes line-draw {
-          0% {
-            stroke-dasharray: 0, 1000;
-            opacity: 0;
-          }
-          50% {
-            opacity: 0.3;
-          }
-          100% {
-            stroke-dasharray: 1000, 0;
-            opacity: 0;
-          }
-        }
-
-        .animate-line-draw {
-          animation: line-draw 3s ease-in-out infinite;
-        }
-
-        /* Skill Card Styles */
-        .skill-card {
+        /* Carousel Container */
+        .carousel-container {
           position: relative;
+          max-width: 1000px;
+          margin: 0 auto;
+        }
+
+        /* Navigation Buttons */
+        .carousel-nav-btn {
+          position: absolute;
+          top: 150px;
+          width: 3rem;
+          height: 3rem;
+          background: rgba(139, 92, 246, 0.2);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(139, 92, 246, 0.4);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
           cursor: pointer;
+          transition: all 0.3s ease;
+          z-index: 20;
+        }
+
+        .carousel-nav-btn:hover {
+          background: rgba(139, 92, 246, 0.4);
+          border-color: rgba(139, 92, 246, 0.6);
+          transform: scale(1.1);
+        }
+
+        .carousel-nav-left {
+          left: 0;
+        }
+
+        .carousel-nav-right {
+          right: 0;
+        }
+
+        /* Skills Carousel */
+        .skills-carousel {
+          position: relative;
+          height: 300px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+          margin: 0 auto;
           perspective: 1000px;
-          margin-bottom: 1rem;
-          width: 100%;
-          aspect-ratio: 1 / 1;
         }
 
-        .skill-card-inner {
+        .carousel-skill {
           position: absolute;
-          inset: 0;
-          transition: transform 0.6s;
-          transform-style: preserve-3d;
+          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+          cursor: pointer;
         }
 
-        .skill-card:hover .skill-card-inner {
-          transform: rotateY(10deg) rotateX(-10deg) scale(1.1);
+        .carousel-skill-active {
+          filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.8));
         }
 
-        .skill-card-border {
+        .skill-carousel-card {
+          position: relative;
+          width: 120px;
+          height: 120px;
+        }
+
+        .skill-carousel-border {
           position: absolute;
-          inset: -2px;
+          inset: -3px;
           background: linear-gradient(45deg, #06b6d4, #8b5cf6, #06b6d4);
           background-size: 300% 300%;
-          border-radius: 1rem;
+          border-radius: 1.5rem;
           opacity: 0;
           transition: opacity 0.3s;
           animation: gradient 3s ease infinite;
-          filter: blur(8px);
+          filter: blur(10px);
         }
 
-        .skill-card:hover .skill-card-border {
-          opacity: 0.8;
+        .carousel-skill-active .skill-carousel-border {
+          opacity: 1;
         }
 
-        .skill-card-content {
-          position: absolute;
-          inset: 0;
-          background: rgba(15, 10, 31, 0.9);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(139, 92, 246, 0.3);
-          border-radius: 1rem;
-          padding: 1rem;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.3s ease;
-        }
-
-        .skill-card:hover .skill-card-content {
-          background: rgba(15, 10, 31, 0.95);
-          border-color: rgba(139, 92, 246, 0.6);
-          box-shadow: 
-            0 0 30px rgba(139, 92, 246, 0.3),
-            0 0 60px rgba(6, 182, 212, 0.2),
-            inset 0 0 30px rgba(139, 92, 246, 0.1);
-        }
-
-        .skill-icon-wrapper {
+        .skill-carousel-content {
           position: relative;
           width: 100%;
           height: 100%;
+          background: rgba(184, 184, 41, 0.74);
+          backdrop-filter: blur(20px);
+          border: 2px solid rgba(139, 92, 246, 0.3);
+          border-radius: 1.5rem;
+          padding: 1rem;
           display: flex;
           align-items: center;
           justify-content: center;
+          transition: all 0.3s ease;
         }
 
-        .skill-icon {
-          width: 70%;
-          height: 70%;
+        .carousel-skill-active .skill-carousel-content {
+          border-color: rgba(250, 204, 21, 0.8);
+          background: rgba(250, 204, 21, 0.18);
+          box-shadow: 
+            0 0 35px rgba(250, 204, 21, 0.5),
+            inset 0 0 25px rgba(250, 204, 21, 0.2);
+        }
+
+        .skill-carousel-icon {
+          width: 80%;
+          height: 80%;
           object-fit: contain;
           transition: all 0.3s ease;
-          filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.5));
         }
 
-        .skill-card:hover .skill-icon {
-          transform: scale(1.1) rotateZ(5deg);
-          filter: drop-shadow(0 0 20px rgba(6, 182, 212, 0.8));
+        /* Skill Details */
+        .skill-details {
+          margin-top: 3rem;
+          text-align: center;
+          padding: 2rem;
+          background: rgba(15, 10, 31, 0.6);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(139, 92, 246, 0.3);
+          border-radius: 1.5rem;
+          transition: all 0.3s ease;
         }
 
-        .skill-icon-fallback {
-          width: 100%;
-          height: 100%;
+        .skill-details:hover {
+          border-color: rgba(139, 92, 246, 0.6);
+          box-shadow: 0 10px 40px rgba(139, 92, 246, 0.2);
+        }
+
+        .skill-details-name {
+          font-size: 2.5rem;
+          font-weight: 800;
+          background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+          margin-bottom: 2rem;
+          animation: fade-in 0.5s ease;
+        }
+
+        @keyframes fade-in {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        .skill-details-info {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 2rem;
+          margin-bottom: 2rem;
+        }
+
+        .skill-info-item {
           display: flex;
           align-items: center;
-          justify-content: center;
+          gap: 0.75rem;
+          padding: 1rem 2rem;
+          background: rgba(0, 0, 0, 0.3);
+          border: 1px solid rgba(139, 92, 246, 0.3);
+          border-radius: 1rem;
+          transition: all 0.3s ease;
         }
 
-        /* Skill Name Tooltip */
-        .skill-name {
-          position: absolute;
-          bottom: -40px;
-          left: 50%;
-          transform: translateX(-50%) translateY(10px);
-          background: linear-gradient(135deg, rgba(139, 92, 246, 0.95), rgba(6, 182, 212, 0.95));
-          color: white;
-          padding: 0.5rem 1rem;
-          border-radius: 0.5rem;
+        .skill-info-item:hover {
+          transform: translateY(-3px);
+          border-color: rgba(139, 92, 246, 0.6);
+          box-shadow: 0 5px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .skill-info-label {
+          color: #9ca3af;
           font-size: 0.875rem;
           font-weight: 600;
-          white-space: nowrap;
-          opacity: 0;
-          pointer-events: none;
-          transition: all 0.3s ease;
-          z-index: 10;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
-        .skill-name::before {
-          content: '';
-          position: absolute;
-          top: -6px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 0;
-          height: 0;
-          border-left: 6px solid transparent;
-          border-right: 6px solid transparent;
-          border-bottom: 6px solid rgba(139, 92, 246, 0.95);
+        .skill-info-value {
+          color: white;
+          font-size: 1rem;
+          font-weight: 700;
         }
 
-        .skill-name-visible {
-          opacity: 1;
-          transform: translateX(-50%) translateY(0);
+        .skill-experience-badge {
+          padding: 0.25rem 0.75rem;
+          border: 1px solid;
+          border-radius: 9999px;
+          font-size: 0.875rem;
         }
 
-        /* Glow Effect */
-        .skill-glow {
-          position: absolute;
-          inset: -50%;
-          background: radial-gradient(circle, rgba(139, 92, 246, 0.4), transparent 70%);
-          opacity: 0;
-          transition: opacity 0.3s;
+        /* Carousel Dots */
+        .carousel-dots {
+          display: flex;
+          justify-content: center;
+          gap: 0.5rem;
+          flex-wrap: wrap;
+          margin-top: 1.5rem;
         }
 
-        .skill-card:hover .skill-glow {
-          opacity: 1;
-          animation: pulse-glow 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse-glow {
-          0%, 100% { transform: scale(1); opacity: 0.3; }
-          50% { transform: scale(1.2); opacity: 0.6; }
-        }
-
-        /* Particle Effect */
-        .skill-particles {
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-        }
-
-        .particle {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 4px;
-          height: 4px;
-          background: linear-gradient(45deg, #06b6d4, #8b5cf6);
+        .carousel-dot {
+          width: 0.5rem;
+          height: 0.5rem;
+          background: rgba(139, 92, 246, 0.3);
+          border: 1px solid rgba(139, 92, 246, 0.5);
           border-radius: 50%;
-          opacity: 0;
-          animation: particle-burst 1s ease-out forwards;
+          cursor: pointer;
+          transition: all 0.3s ease;
         }
 
-        @keyframes particle-burst {
-          0% {
-            transform: translate(-50%, -50%) rotate(var(--angle)) translateY(0);
-            opacity: 1;
-          }
-          100% {
-            transform: translate(-50%, -50%) rotate(var(--angle)) translateY(50px);
-            opacity: 0;
-          }
+        .carousel-dot:hover {
+          background: rgba(139, 92, 246, 0.5);
+          transform: scale(1.3);
+        }
+
+        .carousel-dot-active {
+          background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+          width: 1.5rem;
+          border-radius: 9999px;
         }
 
         /* Stats Card */
@@ -484,14 +572,23 @@ const Skills = () => {
         .text-pink-400 { color: #f472b6; }
 
         /* Responsive adjustments */
-        @media (max-width: 640px) {
-          .skill-card-content {
-            padding: 0.5rem;
+        @media (max-width: 768px) {
+          .skill-details-name {
+            font-size: 2rem;
           }
 
-          .skill-name {
-            font-size: 0.75rem;
-            padding: 0.375rem 0.75rem;
+          .skill-details-info {
+            flex-direction: column;
+            gap: 1rem;
+          }
+
+          .carousel-nav-btn {
+            width: 2.5rem;
+            height: 2.5rem;
+          }
+
+          .carousel-skill {
+            transform: translateX(${skill => skill.offset * 100}px) scale(${skill => skill.offset === 0 ? 1.3 : 0.6}) !important;
           }
         }
       `}</style>
