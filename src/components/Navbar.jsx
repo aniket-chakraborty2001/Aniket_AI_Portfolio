@@ -65,8 +65,8 @@ const Navbar = () => {
             <div className="flex items-center">
               <div className="relative group">
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-full blur-md opacity-50 group-hover:opacity-75 transition-opacity duration-300" />
-                <div className="relative bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold text-2xl px-6 py-2 rounded-full">
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-cyan-200">
+                <div className="relative bg-gradient-to-r from-black to-black text-white font-bold text-3xl px-6 py-2 rounded-full">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-400">
                     A(I)niket
                   </span>
                 </div>
