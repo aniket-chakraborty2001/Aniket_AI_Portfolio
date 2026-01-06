@@ -12,68 +12,63 @@ const Certificates = () => {
       title: "EPG In DS AI and ML",
       issuer: "IIT Roorkee, Intellipaat, Bangalore",
       date: "Feb 2024 to Present",
-      skills: ["Python", "MSSQL", "Data Analysis", "Power BI", "Machine Learning", "Deep Learning", "AI"],
-      credentialUrl: "#"
+      skills: ["Python", "MSSQL", "EDA", "PowerBI", "ML", "DL", "AI"],
+      credentialUrl: "https://drive.google.com/file/d/1OGRaqXd75zDny4vfUPF47Qp02Ugy6wuD/view?usp=drive_link"
     },
     {
       title: "Google Data Analysis",
-      issuer: "Coursera",
+      issuer: "Coursera, Google",
       date: "May 2023",
-      skills: ["Python", "Excel", "SQL", "Pandas", "Matplotlib", "Seaborn", "R"],
-      credentialUrl: "#"
+      skills: ["Python", "Excel", "SQL"],
+      credentialUrl: "https://drive.google.com/file/d/1tWV_db3PoNV3PAnE48cl50Xm157s_xRz/view?usp=drive_link"
     },
     {
       title: "IBM Data Science",
-      issuer: "Coursera",
+      issuer: "Coursera, IBM",
       date: "November 2023",
-      skills: ["Python", "R", "SQL", "Data Analysis", "Plotly Dash", "Machine Learning"],
-      credentialUrl: "#"
+      skills: ["Python", "R", "SQL", "EDA", "ML"],
+      credentialUrl: "https://drive.google.com/file/d/1r1a2AXQk77fgPZkJxx8B-POY2SzbCFqn/view?usp=drive_link"
     },
     {
       title: "Mathematics for ML",
-      issuer: "Imperial College of London",
+      issuer: "Coursera, Imperial College of London",
       date: "January 2024",
-      skills: ["Python", "Linear Algebra", "Multivariate Calculus", "PCA"],
-      credentialUrl: "#"
+      skills: ["Python", "Algebra", "Calculus", "PCA"],
+      credentialUrl: "https://drive.google.com/file/d/1ZBMAWZoriarOppCJvnm1jZKnCDz3C2yT/view?usp=drive_link"
     },
     {
       title: "Prompt Engineering",
       issuer: "Coursera, Vanderbilt University",
       date: "October 2023",
       skills: ["ChatGPT", "Prompting", "Context"],
-      credentialUrl: "#"
+      credentialUrl: "https://drive.google.com/file/d/17H3T9PLwFdT2ZvejXpsnQBvbE_nUl3Vy/view?usp=drive_link"
     },
     {
       title: "Internship Certificate",
       issuer: "IPCR Kolkata",
       date: "September 2024",
       skills: ["Python", "Research", "Collaboration"],
-      credentialUrl: "#"
+      credentialUrl: "https://drive.google.com/file/d/1RUdEpdNwzWT-5zPwbsX6A3SXB1kofFgl/view?usp=drive_link"
     }
   ];
 
-  /* ---------- Auto Play ---------- */
   useEffect(() => {
-    autoPlayRef.current = setInterval(() => {
-      next();
-    }, 3000);
-
+    autoPlayRef.current = setInterval(() => next(), 2000);
     return () => clearInterval(autoPlayRef.current);
   }, [currentIndex]);
 
-  const next = () => {
-    setCurrentIndex((prev) => (prev + 1) % certificates.length);
-  };
+  const next = () => setCurrentIndex((p) => (p + 1) % certificates.length);
+  const prev = () => setCurrentIndex((p) => (p === 0 ? certificates.length - 1 : p - 1));
 
-  const prev = () => {
-    setCurrentIndex((prev) =>
-      prev === 0 ? certificates.length - 1 : prev - 1
-    );
+  const handleManualChange = (cb) => {
+    clearInterval(autoPlayRef.current);
+    cb();
+    autoPlayRef.current = setInterval(next, 2000);
   };
 
   const getVisibleCards = () => {
     const total = certificates.length;
-    return [-1, 0, 1].map((offset) => {
+    return [-2, -1, 0, 1, 2].map((offset) => {
       const index = (currentIndex + offset + total) % total;
       return { ...certificates[index], offset, index };
     });
@@ -84,75 +79,78 @@ const Certificates = () => {
       id="certificates"
       className="min-h-screen py-24 px-6 relative overflow-hidden"
       style={{
-        background: "linear-gradient(to bottom, #0a0a1a, #1a0f2e, #0a0a1a)"
+        background: "linear-gradient(to bottom, #020617, #0f172a, #020617)"
       }}
     >
-      {/* Title */}
-      <div className="text-center mb-16">
-        <h2 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-purple-400 to-yellow-400 inline-block animated-gradient-text bg-300% leading-[1.2] pb-2">
-          Certificates & Training
-        </h2>
-        <div className="h-1 w-32 bg-gradient-to-r from-yellow-500 to-purple-600 mx-auto mt-4 rounded-full" />
+      {/* Background Effects */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute w-96 h-96 bg-cyan-500 rounded-full blur-3xl opacity-10 top-20 left-20" />
+        <div className="absolute w-96 h-96 bg-fuchsia-600 rounded-full blur-3xl opacity-10 bottom-20 right-20" />
       </div>
 
-      {/* Carousel */}
-      <div className="relative max-w-6xl mx-auto flex items-center justify-center">
-        {/* Left Arrow */}
-        <button className="nav-btn left" onClick={prev}>
-          <ChevronLeft />
-        </button>
-
-        {/* Cards */}
-        <div className="carousel">
-          {getVisibleCards().map((cert) => (
-            <div
-              key={cert.index}
-              className={`card ${cert.offset === 0 ? "active" : "side"}`}
-              style={{
-                transform: `translateX(${cert.offset * 260}px) scale(${cert.offset === 0 ? 1.1 : 0.85})`,
-                zIndex: cert.offset === 0 ? 10 : 5,
-                opacity: cert.offset === 0 ? 1 : 0.5
-              }}
-            >
-              <div className="card-inner">
-                <div className="badge">
-                  <Award />
-                </div>
-
-                <h3 className="title">{cert.title}</h3>
-                <p className="issuer">{cert.issuer}</p>
-                <p className="date">{cert.date}</p>
-
-                <div className="skills">
-                  {cert.skills.map((s, i) => (
-                    <span key={i}>{s}</span>
-                  ))}
-                </div>
-
-                <a
-                  href={cert.credentialUrl}
-                  target="_blank"
-                  className="btn"
-                >
-                  View Credential <ExternalLink size={16} />
-                </a>
-              </div>
-            </div>
-          ))}
+      <div className="max-w-7xl mx-auto relative z-10">
+        {/* Title */}
+        <div className="text-center mb-16">
+          <h2 className="text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-400 to-fuchsia-400">
+            Certificates & Training
+          </h2>
+          <div className="h-1 w-32 bg-gradient-to-r from-cyan-400 to-fuchsia-500 mx-auto mt-4 rounded-full" />
+          <p className="text-slate-400 mt-6 text-lg">
+            Formal training and validation of specialized skills
+          </p>
         </div>
 
-        {/* Right Arrow */}
-        <button className="nav-btn right" onClick={next}>
-          <ChevronRight />
-        </button>
+        {/* Carousel */}
+        <div className="relative max-w-6xl mx-auto">
+          <button className="nav-btn left" onClick={() => handleManualChange(prev)}>
+            <ChevronLeft />
+          </button>
+
+          <div className="carousel">
+            {getVisibleCards().map((cert) => (
+              <div
+                key={cert.index}
+                className={`card ${cert.offset === 0 ? "active" : ""}`}
+                style={{
+                  transform: `translateX(${cert.offset * 200}px) scale(${cert.offset === 0 ? 1 : 0.75})`,
+                  zIndex: 10 - Math.abs(cert.offset),
+                  opacity: Math.abs(cert.offset) > 1 ? 0.3 : 1
+                }}
+              >
+                <div className="card-glow" />
+                <div className="card-inner">
+                  <div className="badge">
+                    <Award />
+                  </div>
+
+                  <h3 className="title">{cert.title}</h3>
+                  <p className="issuer">{cert.issuer}</p>
+                  <p className="date">{cert.date}</p>
+
+                  <div className="skills">
+                    {cert.skills.map((s, i) => (
+                      <span key={i}>{s}</span>
+                    ))}
+                  </div>
+
+                  <a href={cert.credentialUrl} className="btn" target="_blank">
+                    View Credential <ExternalLink size={16} />
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <button className="nav-btn right" onClick={() => handleManualChange(next)}>
+            <ChevronRight />
+          </button>
+        </div>
       </div>
 
-      {/* Styles */}
       <style jsx>{`
         .carousel {
           position: relative;
-          height: 420px;
-          width: 100%;
+          height: 450px;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -160,31 +158,43 @@ const Certificates = () => {
 
         .card {
           position: absolute;
-          width: 460px;
+          width: 410px;
+          height: 400px;
           transition: all 0.6s ease;
         }
 
+        .card-glow {
+          position: absolute;
+          inset: -4px;
+          background: linear-gradient(
+            135deg,
+          rgba(251, 191, 36, 0.9),   /* amber */
+          rgba(56, 189, 248, 0.9) 
+          );
+          border-radius: 1.5rem;
+          opacity: 0;
+          filter: blur(100px);
+          pointer-events: none;
+        }
+
+        .card.active .card-glow {
+          opacity: 0.9;
+        }
+
         .card-inner {
-          background: rgba(234, 179, 8, 0.12);
-          border: 1px solid rgba(234, 179, 8, 0.4);
-          backdrop-filter: blur(20px);
+          background: rgba(15, 23, 42, 0.8);
+          border: 1px solid rgba(99, 102, 241, 0.4);
           border-radius: 1.5rem;
           padding: 2rem;
           height: 100%;
           display: flex;
           flex-direction: column;
-          gap: 0.75rem;
-          box-shadow: 0 0 40px rgba(234, 179, 8, 0.25);
-        }
-
-        .active .card-inner {
-          box-shadow: 0 0 80px rgba(234, 179, 8, 0.6);
         }
 
         .badge {
-          width: 3.5rem;
-          height: 3.5rem;
-          background: linear-gradient(135deg, #eab308, #fbbf24);
+          width: 4rem;
+          height: 4rem;
+          background: linear-gradient(135deg, #22d3ee, #6366f1);
           border-radius: 50%;
           display: flex;
           align-items: center;
@@ -193,62 +203,48 @@ const Certificates = () => {
         }
 
         .title {
+          color: #e0f2fe;
           font-size: 1.4rem;
           font-weight: 800;
-          color: #fde047;
         }
 
         .issuer {
-          font-weight: 600;
-          color: white;
+          color: #c7d2fe;
         }
 
         .date {
-          font-size: 0.85rem;
-          color: #fde047;
-        }
-
-        .skills {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.4rem;
-          margin-top: auto;
-        }
-
-        .animated-gradient-text {
-          background-size: 300% 300%;
-          -webkit-background-clip: text;
-          background-clip: text;
-          animation: gradient 4s ease infinite;
+          color: #67e8f9;
+          font-weight: 700;
         }
 
         .skills span {
-          background: rgba(234, 179, 8, 0.25);
-          padding: 0.3rem 0.6rem;
-          border-radius: 0.375rem;
-          font-size: 0.7rem;
-          color: #fde047;
+          background: rgba(99, 102, 241, 0.25);
+          border: 1px solid rgba(129, 140, 248, 0.4);
+          color: #e0e7ff;
+          padding: 0.4rem 0.75rem;
+          border-radius: 0.4rem;
+          font-size: 0.75rem;
         }
 
         .btn {
-          margin-top: 1rem;
-          background: linear-gradient(135deg, #eab308, #fbbf24);
-          color: black;
-          padding: 0.6rem 1.2rem;
+          margin-top: auto;
+          background: linear-gradient(135deg, #34d399, #22d3ee);
+          color: #020617;
+          padding: 0.75rem 1.5rem;
           border-radius: 9999px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.4rem;
           font-weight: 700;
+          display: flex;
+          justify-content: center;
+          gap: 0.5rem;
+          cursor: pointer;
         }
 
         .nav-btn {
           position: absolute;
           top: 50%;
           transform: translateY(-50%);
-          background: rgba(234, 179, 8, 0.25);
-          border: 1px solid rgba(234, 179, 8, 0.5);
+          background: rgba(34, 211, 238, 0.25);
+          border: 1px solid rgba(34, 211, 238, 0.4);
           width: 3rem;
           height: 3rem;
           border-radius: 50%;
@@ -257,16 +253,10 @@ const Certificates = () => {
           justify-content: center;
           color: white;
           cursor: pointer;
-          z-index: 20;
         }
 
-        .nav-btn.left {
-          left: -4rem;
-        }
-
-        .nav-btn.right {
-          right: -4rem;
-        }
+        .nav-btn.left { left: -4rem; }
+        .nav-btn.right { right: -4rem; }
       `}</style>
     </section>
   );
