@@ -460,7 +460,7 @@ const Skills = () => {
         .skill-details-name {
           font-size: 2.5rem;
           font-weight: 800;
-          background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+          background: linear-gradient(135deg, #06b6d4, #edea14ff);
           -webkit-background-clip: text;
           background-clip: text;
           color: transparent;

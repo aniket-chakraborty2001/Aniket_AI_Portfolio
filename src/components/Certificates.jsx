@@ -13,57 +13,67 @@ const Certificates = () => {
       issuer: "IIT Roorkee, Intellipaat, Bangalore",
       date: "Feb 2024 to Present",
       skills: ["Python", "MSSQL", "EDA", "PowerBI", "ML", "DL", "AI"],
-      credentialUrl: "https://drive.google.com/file/d/1OGRaqXd75zDny4vfUPF47Qp02Ugy6wuD/view?usp=drive_link"
+      credentialUrl:
+        "https://drive.google.com/file/d/1OGRaqXd75zDny4vfUPF47Qp02Ugy6wuD/view"
     },
     {
       title: "Google Data Analysis",
       issuer: "Coursera, Google",
       date: "May 2023",
       skills: ["Python", "Excel", "SQL"],
-      credentialUrl: "https://drive.google.com/file/d/1tWV_db3PoNV3PAnE48cl50Xm157s_xRz/view?usp=drive_link"
+      credentialUrl:
+        "https://drive.google.com/file/d/1tWV_db3PoNV3PAnE48cl50Xm157s_xRz/view"
     },
     {
       title: "IBM Data Science",
       issuer: "Coursera, IBM",
       date: "November 2023",
       skills: ["Python", "R", "SQL", "EDA", "ML"],
-      credentialUrl: "https://drive.google.com/file/d/1r1a2AXQk77fgPZkJxx8B-POY2SzbCFqn/view?usp=drive_link"
+      credentialUrl:
+        "https://drive.google.com/file/d/1r1a2AXQk77fgPZkJxx8B-POY2SzbCFqn/view"
     },
     {
       title: "Mathematics for ML",
       issuer: "Coursera, Imperial College of London",
       date: "January 2024",
       skills: ["Python", "Algebra", "Calculus", "PCA"],
-      credentialUrl: "https://drive.google.com/file/d/1ZBMAWZoriarOppCJvnm1jZKnCDz3C2yT/view?usp=drive_link"
+      credentialUrl:
+        "https://drive.google.com/file/d/1ZBMAWZoriarOppCJvnm1jZKnCDz3C2yT/view"
     },
     {
       title: "Prompt Engineering",
       issuer: "Coursera, Vanderbilt University",
       date: "October 2023",
       skills: ["ChatGPT", "Prompting", "Context"],
-      credentialUrl: "https://drive.google.com/file/d/17H3T9PLwFdT2ZvejXpsnQBvbE_nUl3Vy/view?usp=drive_link"
+      credentialUrl:
+        "https://drive.google.com/file/d/17H3T9PLwFdT2ZvejXpsnQBvbE_nUl3Vy/view"
     },
     {
       title: "Internship Certificate",
       issuer: "IPCR Kolkata",
       date: "September 2024",
       skills: ["Python", "Research", "Collaboration"],
-      credentialUrl: "https://drive.google.com/file/d/1RUdEpdNwzWT-5zPwbsX6A3SXB1kofFgl/view?usp=drive_link"
+      credentialUrl:
+        "https://drive.google.com/file/d/1RUdEpdNwzWT-5zPwbsX6A3SXB1kofFgl/view"
     }
   ];
 
   useEffect(() => {
-    autoPlayRef.current = setInterval(() => next(), 2000);
+    autoPlayRef.current = setInterval(() => next(), 2500);
     return () => clearInterval(autoPlayRef.current);
   }, [currentIndex]);
 
-  const next = () => setCurrentIndex((p) => (p + 1) % certificates.length);
-  const prev = () => setCurrentIndex((p) => (p === 0 ? certificates.length - 1 : p - 1));
+  const next = () =>
+    setCurrentIndex((p) => (p + 1) % certificates.length);
+  const prev = () =>
+    setCurrentIndex((p) =>
+      p === 0 ? certificates.length - 1 : p - 1
+    );
 
   const handleManualChange = (cb) => {
     clearInterval(autoPlayRef.current);
     cb();
-    autoPlayRef.current = setInterval(next, 2000);
+    autoPlayRef.current = setInterval(next, 2500);
   };
 
   const getVisibleCards = () => {
@@ -82,27 +92,23 @@ const Certificates = () => {
         background: "linear-gradient(to bottom, #020617, #0f172a, #020617)"
       }}
     >
-      {/* Background Effects */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute w-96 h-96 bg-cyan-500 rounded-full blur-3xl opacity-10 top-20 left-20" />
-        <div className="absolute w-96 h-96 bg-fuchsia-600 rounded-full blur-3xl opacity-10 bottom-20 right-20" />
-      </div>
-
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Title */}
         <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-purple-400 to-yellow-400 inline-block animated-gradient-text bg-300% leading-[1.2] pb-2">
+          <h2 className="text-5xl font-bold text-cyan-300">
             Certificates & Training
           </h2>
-          <div className="h-1 w-32 bg-gradient-to-r from-cyan-400 to-fuchsia-500 mx-auto mt-4 rounded-full" />
-          <p className="text-slate-400 mt-6 text-lg">
-            Formal training and validation of specialized skills
+          <p className="text-slate-400 mt-4">
+            Formal training and skill validation
           </p>
         </div>
 
         {/* Carousel */}
         <div className="relative max-w-6xl mx-auto">
-          <button className="nav-btn left" onClick={() => handleManualChange(prev)}>
+          <button
+            className="nav-btn left"
+            onClick={() => handleManualChange(prev)}
+          >
             <ChevronLeft />
           </button>
 
@@ -110,14 +116,19 @@ const Certificates = () => {
             {getVisibleCards().map((cert) => (
               <div
                 key={cert.index}
-                className={`card ${cert.offset === 0 ? "active" : ""}`}
+                className={`card ${
+                  cert.offset === 0 ? "active" : ""
+                }`}
                 style={{
-                  transform: `translateX(${cert.offset * 200}px) scale(${cert.offset === 0 ? 1 : 0.75})`,
+                  transform: `translateX(${cert.offset * 200}px) scale(${
+                    cert.offset === 0 ? 1 : 0.75
+                  })`,
                   zIndex: 10 - Math.abs(cert.offset),
-                  opacity: Math.abs(cert.offset) > 1 ? 0.3 : 1
+                  opacity: Math.abs(cert.offset) > 1 ? 0.25 : 1
                 }}
               >
                 <div className="card-glow" />
+
                 <div className="card-inner">
                   <div className="badge">
                     <Award />
@@ -133,7 +144,11 @@ const Certificates = () => {
                     ))}
                   </div>
 
-                  <a href={cert.credentialUrl} className="btn" target="_blank">
+                  <a
+                    href={cert.credentialUrl}
+                    className="btn"
+                    target="_blank"
+                  >
                     View Credential <ExternalLink size={16} />
                   </a>
                 </div>
@@ -141,7 +156,10 @@ const Certificates = () => {
             ))}
           </div>
 
-          <button className="nav-btn right" onClick={() => handleManualChange(next)}>
+          <button
+            className="nav-btn right"
+            onClick={() => handleManualChange(next)}
+          >
             <ChevronRight />
           </button>
         </div>
@@ -156,13 +174,6 @@ const Certificates = () => {
           align-items: center;
         }
 
-        .animated-gradient-text {
-          background-size: 300% 300%;
-          -webkit-background-clip: text;
-          background-clip: text;
-          animation: gradient 4s ease infinite;
-        }
-
         .card {
           position: absolute;
           width: 410px;
@@ -170,32 +181,42 @@ const Certificates = () => {
           transition: all 0.6s ease;
         }
 
+        /* 🔹 Soft cyan / indigo glow (NO YELLOW) */
         .card-glow {
           position: absolute;
-          inset: -4px;
+          inset: -6px;
           background: linear-gradient(
             135deg,
-          rgba(251, 191, 36, 0.9),   /* amber */
-          rgba(56, 189, 248, 0.9) 
+            rgba(34, 211, 238, 0.6),
+            rgba(99, 102, 241, 0.6)
           );
           border-radius: 1.5rem;
           opacity: 0;
-          filter: blur(100px);
+          filter: blur(40px);
           pointer-events: none;
         }
 
         .card.active .card-glow {
-          opacity: 0.9;
+          opacity: 0.8;
         }
 
+        /* 🔹 Default (non-focused) card */
         .card-inner {
-          background: rgba(15, 23, 42, 0.8);
-          border: 1px solid rgba(99, 102, 241, 0.4);
+          background: rgba(15, 23, 42, 0.65);
+          backdrop-filter: blur(12px);
+          border: 1px solid rgba(99, 102, 241, 0.35);
           border-radius: 1.5rem;
           padding: 2rem;
           height: 100%;
           display: flex;
           flex-direction: column;
+          transition: background 0.5s ease;
+        }
+
+        /* 🔹 Focused card = SOLID background */
+        .card.active .card-inner {
+          background: #020617;
+          border-color: rgba(56, 189, 248, 0.6);
         }
 
         .badge {
@@ -210,6 +231,7 @@ const Certificates = () => {
         }
 
         .title {
+          margin-top: 1rem;
           color: #e0f2fe;
           font-size: 1.4rem;
           font-weight: 800;
@@ -222,6 +244,13 @@ const Certificates = () => {
         .date {
           color: #67e8f9;
           font-weight: 700;
+        }
+
+        .skills {
+          margin-top: 1rem;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
         }
 
         .skills span {
@@ -243,7 +272,6 @@ const Certificates = () => {
           display: flex;
           justify-content: center;
           gap: 0.5rem;
-          cursor: pointer;
         }
 
         .nav-btn {
@@ -262,8 +290,12 @@ const Certificates = () => {
           cursor: pointer;
         }
 
-        .nav-btn.left { left: -4rem; }
-        .nav-btn.right { right: -4rem; }
+        .nav-btn.left {
+          left: -4rem;
+        }
+        .nav-btn.right {
+          right: -4rem;
+        }
       `}</style>
     </section>
   );
