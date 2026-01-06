@@ -1,11 +1,13 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { GraduationCap, Award, BookOpen, ExternalLink } from 'lucide-react';
+import { GraduationCap, Award, BookOpen, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const Education = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const sectionRef = useRef(null);
+  const autoPlayRef = useRef(null);
 
   const educationData = [
     {
@@ -15,7 +17,7 @@ const Education = () => {
       duration: '2022 - 2024',
       cgpa: '9.4',
       coursework: 'Data Analysis, Data Science, Machine Learning, Deep Learning, NLP, Computer Vision',
-      credentialsLink: 'https://drive.google.com/file/d/1fVjykc4PMnaYD6L7fMotCEM2j2uc4yxB/view?usp=sharing', // Add actual link
+      credentialsLink: 'https://drive.google.com/file/d/1fVjykc4PMnaYD6L7fMotCEM2j2uc4yxB/view?usp=sharing',
       icon: '🎓'
     },
     {
@@ -25,7 +27,7 @@ const Education = () => {
       duration: '2019 - 2022',
       cgpa: '9.00',
       coursework: 'Calculus, Algebra, Statistics, Linear Programming, Real & Complex Analysis',
-      credentialsLink: 'https://drive.google.com/file/d/1okbXbXdQ4sjYagLOJiq8U8zvfLvEwLE3/view?usp=sharing', // Add actual link
+      credentialsLink: 'https://drive.google.com/file/d/1okbXbXdQ4sjYagLOJiq8U8zvfLvEwLE3/view?usp=sharing',
       icon: '📚'
     }
   ];
@@ -50,6 +52,35 @@ const Education = () => {
       }
     };
   }, []);
+
+  // Auto-play swiper
+  useEffect(() => {
+    autoPlayRef.current = setInterval(() => {
+      nextSlide();
+    }, 4000);
+
+    return () => {
+      if (autoPlayRef.current) {
+        clearInterval(autoPlayRef.current);
+      }
+    };
+  }, [currentIndex]);
+
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % educationData.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev - 1 + educationData.length) % educationData.length);
+  };
+
+  const handleManualChange = (callback) => {
+    if (autoPlayRef.current) {
+      clearInterval(autoPlayRef.current);
+    }
+    callback();
+    autoPlayRef.current = setInterval(nextSlide, 4000);
+  };
 
   return (
     <section
@@ -86,93 +117,127 @@ const Education = () => {
           </p>
         </div>
 
-        {/* Education Cards */}
-        <div className="space-y-8">
-          {educationData.map((edu, index) => (
-            <div
-              key={index}
-              className={`education-card transition-all duration-1000 ${
-                isVisible ? 'opacity-100 translate-x-0' : index === 0 ? 'opacity-0 -translate-x-20' : 'opacity-0 translate-x-20'
-              }`}
-              style={{ transitionDelay: `${index * 0.3}s` }}
-            >
-              {/* Animated Border */}
-              <div className="education-card-border" />
-              
-              {/* Card Content */}
-              <div className="education-card-content">
-                <div className="education-card-inner">
-                  {/* Header Section */}
-                  <div className="education-header">
-                    <div className="flex-1">
-                      <h3 className="education-degree">
-                        {edu.degree}
-                      </h3>
-                      <h4 className="education-major">
-                        {edu.major}
-                      </h4>
-                      <p className="education-institution">
-                        {edu.institution}
-                      </p>
-                    </div>
+        {/* Swiper Container */}
+        <div className="swiper-container">
+          {/* Navigation Buttons */}
+          <button
+            onClick={() => handleManualChange(prevSlide)}
+            className="swiper-nav-btn swiper-nav-left"
+            aria-label="Previous education"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
 
-                    {/* Duration & CGPA Badge */}
-                    <div className="education-badge-container">
-                      <div className="education-badge">
-                        <div className="badge-duration">
-                          {edu.duration}
+          <button
+            onClick={() => handleManualChange(nextSlide)}
+            className="swiper-nav-btn swiper-nav-right"
+            aria-label="Next education"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+
+          {/* Education Cards Swiper */}
+          <div className="swiper-wrapper">
+            <div
+              className="swiper-track"
+              style={{
+                transform: `translateX(-${currentIndex * 100}%)`
+              }}
+            >
+              {educationData.map((edu, index) => (
+                <div
+                  key={index}
+                  className={`swiper-slide ${
+                    isVisible ? 'opacity-100' : 'opacity-0'
+                  }`}
+                  style={{ transitionDelay: `${index * 0.3}s` }}
+                >
+                  <div className="education-card">
+                    {/* Animated Border */}
+                    <div className="education-card-border" />
+                    
+                    {/* Card Content */}
+                    <div className="education-card-content">
+                      <div className="education-card-inner">
+                        {/* Header Section */}
+                        <div className="education-header">
+                          <div className="flex-1">
+                            <h3 className="education-degree">
+                              {edu.degree}
+                            </h3>
+                            <h4 className="education-major">
+                              {edu.major}
+                            </h4>
+                            <p className="education-institution">
+                              {edu.institution}
+                            </p>
+                          </div>
+
+                          {/* Duration & CGPA Badge */}
+                          <div className="education-badge-container">
+                            <div className="education-badge">
+                              <div className="badge-duration">
+                                {edu.duration}
+                              </div>
+                              <div className="badge-cgpa">
+                                <Award className="w-4 h-4" />
+                                <span>CGPA: {edu.cgpa}</span>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <div className="badge-cgpa">
-                          <Award className="w-4 h-4" />
-                          <span>CGPA: {edu.cgpa}</span>
+
+                        {/* Coursework Section */}
+                        <div className="education-coursework">
+                          <div className="coursework-label">
+                            <BookOpen className="w-4 h-4" />
+                            <span>Key Coursework:</span>
+                          </div>
+                          <p className="coursework-text">
+                            {edu.coursework}
+                          </p>
+                        </div>
+
+                        {/* View Credentials Button */}
+                        <div className="education-actions">
+                          <a
+                            href={edu.credentialsLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="credentials-button"
+                          >
+                            <span>View Credentials</span>
+                            <ExternalLink className="w-4 h-4 button-icon" />
+                            <div className="button-glow" />
+                          </a>
                         </div>
                       </div>
+
+                      {/* Decorative Icon */}
+                      <div className="education-icon">
+                        {edu.icon}
+                      </div>
+
+                      {/* Shine Effect */}
+                      <div className="education-shine" />
                     </div>
                   </div>
-
-                  {/* Coursework Section */}
-                  <div className="education-coursework">
-                    <div className="coursework-label">
-                      <BookOpen className="w-4 h-4" />
-                      <span>Key Coursework:</span>
-                    </div>
-                    <p className="coursework-text">
-                      {edu.coursework}
-                    </p>
-                  </div>
-
-                  {/* View Credentials Button */}
-                  <div className="education-actions">
-                    <a
-                      href={edu.credentialsLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="credentials-button"
-                    >
-                      <span>View Credentials</span>
-                      <ExternalLink className="w-4 h-4 button-icon" />
-                      <div className="button-glow" />
-                    </a>
-                  </div>
                 </div>
-
-                {/* Decorative Icon */}
-                <div className="education-icon">
-                  {edu.icon}
-                </div>
-
-                {/* Shine Effect */}
-                <div className="education-shine" />
-              </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
 
-        {/* Timeline Connector */}
-        <div className="timeline-container">
-          <div className="timeline-line" />
-          <div className="timeline-dot timeline-dot-top" />
-          <div className="timeline-dot timeline-dot-bottom" />
+          {/* Progress Dots */}
+          <div className="swiper-pagination">
+            {educationData.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => handleManualChange(() => setCurrentIndex(index))}
+                className={`swiper-dot ${currentIndex === index ? 'swiper-dot-active' : ''}`}
+                aria-label={`Go to education ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
@@ -230,6 +295,94 @@ const Education = () => {
 
         .bg-300\% {
           background-size: 300%;
+        }
+
+        /* Swiper Container */
+        .swiper-container {
+          position: relative;
+          max-width: 100%;
+          margin: 0 auto;
+        }
+
+        .swiper-wrapper {
+          position: relative;
+          overflow: hidden;
+          border-radius: 1.5rem;
+        }
+
+        .swiper-track {
+          display: flex;
+          transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .swiper-slide {
+          min-width: 100%;
+          padding: 0 1rem;
+          box-sizing: border-box;
+          transition: opacity 1s ease;
+        }
+
+        /* Navigation Buttons */
+        .swiper-nav-btn {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 3rem;
+          height: 3rem;
+          background: rgba(139, 92, 246, 0.2);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(139, 92, 246, 0.4);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          z-index: 20;
+        }
+
+        .swiper-nav-btn:hover {
+          background: rgba(139, 92, 246, 0.4);
+          border-color: rgba(139, 92, 246, 0.6);
+          transform: translateY(-50%) scale(1.1);
+        }
+
+        .swiper-nav-left {
+          left: -1rem;
+        }
+
+        .swiper-nav-right {
+          right: -1rem;
+        }
+
+        /* Pagination Dots */
+        .swiper-pagination {
+          display: flex;
+          justify-content: center;
+          gap: 0.75rem;
+          margin-top: 2rem;
+        }
+
+        .swiper-dot {
+          width: 0.75rem;
+          height: 0.75rem;
+          background: rgba(168, 85, 247, 0.3);
+          border: 1px solid rgba(168, 85, 247, 0.5);
+          border-radius: 50%;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .swiper-dot:hover {
+          background: rgba(168, 85, 247, 0.5);
+          transform: scale(1.2);
+        }
+
+        .swiper-dot-active {
+          background: linear-gradient(135deg, #a855f7, #eab308);
+          width: 2rem;
+          border-radius: 9999px;
         }
 
         /* Education Card */
@@ -487,64 +640,6 @@ const Education = () => {
           }
         }
 
-        /* Timeline */
-        .timeline-container {
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
-          width: 4px;
-          height: 60%;
-          pointer-events: none;
-        }
-
-        .timeline-line {
-          position: absolute;
-          left: 50%;
-          top: 0;
-          bottom: 0;
-          width: 2px;
-          background: linear-gradient(to bottom, 
-            transparent,
-            rgba(168, 85, 247, 0.5) 20%,
-            rgba(234, 179, 8, 0.5) 80%,
-            transparent
-          );
-          transform: translateX(-50%);
-        }
-
-        .timeline-dot {
-          position: absolute;
-          left: 50%;
-          width: 16px;
-          height: 16px;
-          background: linear-gradient(135deg, #a855f7, #eab308);
-          border: 3px solid rgba(0, 0, 0, 0.8);
-          border-radius: 50%;
-          transform: translateX(-50%);
-          box-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
-          animation: pulse-timeline 2s ease-in-out infinite;
-        }
-
-        .timeline-dot-top {
-          top: 10%;
-        }
-
-        .timeline-dot-bottom {
-          bottom: 10%;
-        }
-
-        @keyframes pulse-timeline {
-          0%, 100% {
-            box-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
-            transform: translateX(-50%) scale(1);
-          }
-          50% {
-            box-shadow: 0 0 30px rgba(234, 179, 8, 0.8);
-            transform: translateX(-50%) scale(1.2);
-          }
-        }
-
         /* Responsive Design */
         @media (max-width: 768px) {
           .education-card-inner {
@@ -582,8 +677,12 @@ const Education = () => {
             right: 1rem;
           }
 
-          .timeline-container {
-            display: none;
+          .swiper-nav-left {
+            left: 0.5rem;
+          }
+
+          .swiper-nav-right {
+            right: 0.5rem;
           }
         }
       `}</style>

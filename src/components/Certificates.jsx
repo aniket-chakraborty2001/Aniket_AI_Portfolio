@@ -91,7 +91,7 @@ const Certificates = () => {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Title */}
         <div className="text-center mb-16">
-          <h2 className="text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-400 to-fuchsia-400">
+          <h2 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-purple-400 to-yellow-400 inline-block animated-gradient-text bg-300% leading-[1.2] pb-2">
             Certificates & Training
           </h2>
           <div className="h-1 w-32 bg-gradient-to-r from-cyan-400 to-fuchsia-500 mx-auto mt-4 rounded-full" />
@@ -154,6 +154,13 @@ const Certificates = () => {
           display: flex;
           justify-content: center;
           align-items: center;
+        }
+
+        .animated-gradient-text {
+          background-size: 300% 300%;
+          -webkit-background-clip: text;
+          background-clip: text;
+          animation: gradient 4s ease infinite;
         }
 
         .card {

@@ -256,9 +256,9 @@ const Skills = () => {
         {/* Stats Section */}
         <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
           {[
-            { number: '32+', label: 'Technologies', color: 'cyan' },
-            { number: '2+', label: 'Years Experience', color: 'purple' },
-            { number: '50+', label: 'Projects Built', color: 'yellow' },
+            { number: '30+', label: 'Technologies', color: 'cyan' },
+            { number: '1+', label: 'Years Experience', color: 'purple' },
+            { number: '40+', label: 'Projects Built', color: 'yellow' },
             { number: '∞', label: 'Learning Never Stops', color: 'pink' }
           ].map((stat, index) => (
             <div
