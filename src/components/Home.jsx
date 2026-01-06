@@ -9,7 +9,7 @@ const Home = () => {
   /* =======================
      Typing Effect State
   ======================= */
-  const fullText = "Hi, I am an AI/ML Professional";
+  const fullText = "Building intelligence with AI";
   const [displayText, setDisplayText] = useState("");
   const [showCursor, setShowCursor] = useState(true);
   const [typingDone, setTypingDone] = useState(false);
