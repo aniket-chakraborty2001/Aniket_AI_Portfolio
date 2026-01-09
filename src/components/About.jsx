@@ -236,10 +236,30 @@ const About = () => {
         }
 
         .info-card {
-          background: rgba(30, 15, 60, 0.7);
+          background: linear-gradient(
+            135deg,
+          rgba(255, 255, 255, 0.08),
+          rgba(255, 255, 255, 0.02));
           border-radius: 1.5rem;
           padding: 2rem;
-          backdrop-filter: blur(20px);
+          backdrop-filter: blur(24px);
+          -webkit-backdrop-filter: blur(24px);
+          border: 1px solid rgba(255, 255, 255, 0.18);
+          box-shadow:
+            0 8px 32px rgba(0, 0, 0, 0.35),
+            inset 0 0 30px rgba(255, 255, 255, 0.03);
+          transition:
+            transform 0.4s ease,
+            box-shadow 0.4s ease,
+            border 0.4s ease;
+        }
+
+        .info-card:hover {
+          transform: scale(1.05);
+          box-shadow:
+            0 25px 60px rgba(185, 232, 18, 0.45),
+            inset 0 0 40px rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(185, 232, 18, 0.45);
         }
 
         .section-title {
