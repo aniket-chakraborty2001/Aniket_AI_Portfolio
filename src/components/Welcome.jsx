@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
-import { Brain, Cpu, Zap, GitBranch, Network, Sparkles } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Brain, Cpu, Zap, GitBranch, Network, Sparkles, Atom, Code2, Binary } from 'lucide-react';
 
 const Welcome = ({ onComplete }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [progress, setProgress] = useState(0);
-  const canvasRef = useRef(null);
 
   useEffect(() => {
     // Progress bar animation
@@ -18,7 +17,7 @@ const Welcome = ({ onComplete }) => {
         }
         return prev + 2;
       });
-    }, 30);
+    }, 60);
 
     // Hide welcome screen after 3 seconds
     const timer = setTimeout(() => {
@@ -34,102 +33,24 @@ const Welcome = ({ onComplete }) => {
     };
   }, [onComplete]);
 
-  // Neural network animation
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const particles = [];
-    const particleCount = 50;
-
-    class Particle {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.vx = (Math.random() - 0.5) * 0.5;
-        this.vy = (Math.random() - 0.5) * 0.5;
-        this.radius = Math.random() * 2 + 1;
-      }
-
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-
-        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-      }
-
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0, 240, 255, 0.8)';
-        ctx.fill();
-      }
-    }
-
-    for (let i = 0; i < particleCount; i++) {
-      particles.push(new Particle());
-    }
-
-    function drawConnections() {
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < 120) {
-            ctx.beginPath();
-            ctx.strokeStyle = `rgba(138, 43, 226, ${1 - distance / 120})`;
-            ctx.lineWidth = 0.5;
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
-          }
-        }
-      }
-    }
-
-    let animationId;
-    function animate() {
-      ctx.fillStyle = 'rgba(10, 10, 26, 0.1)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      particles.forEach(particle => {
-        particle.update();
-        particle.draw();
-      });
-
-      drawConnections();
-      animationId = requestAnimationFrame(animate);
-    }
-
-    animate();
-
-    const handleResize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      cancelAnimationFrame(animationId);
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
   return (
     <div className={`welcome-container ${!isVisible ? 'fade-out' : ''}`}>
-      {/* Neural Network Canvas */}
-      <canvas
-        ref={canvasRef}
-        className="neural-canvas"
-      />
+      {/* Animated Grid Background */}
+      <div className="grid-background" />
+      
+      {/* Animated Lines */}
+      <div className="lines-container">
+        {[...Array(8)].map((_, i) => (
+          <div key={i} className={`line line-${i + 1}`} />
+        ))}
+      </div>
+
+      {/* Floating Particles */}
+      <div className="particles-container">
+        {[...Array(10)].map((_, i) => (
+          <div key={i} className={`particle particle-${i + 1}`} />
+        ))}
+      </div>
 
       {/* Floating AI Icons */}
       <div className="floating-icons">
@@ -142,18 +63,15 @@ const Welcome = ({ onComplete }) => {
         <div className="icon-wrapper icon-3">
           <Network className="w-14 h-14 text-pink-400" />
         </div>
-        <div className="icon-wrapper icon-4">
-          <Zap className="w-10 h-10 text-yellow-400" />
-        </div>
         <div className="icon-wrapper icon-5">
           <GitBranch className="w-12 h-12 text-green-400" />
         </div>
-        <div className="icon-wrapper icon-6">
-          <Sparkles className="w-10 h-10 text-blue-400" />
+        <div className="icon-wrapper icon-9">
+          <Binary className="w-10 h-10 text-pink-300" />
         </div>
       </div>
 
-      {/* Central AI Brain Animation */}
+      {/* Central Brain with Rings */}
       <div className="ai-brain-container">
         <div className="brain-rings">
           <div className="ring ring-1" />
@@ -223,14 +141,106 @@ const Welcome = ({ onComplete }) => {
           pointer-events: none;
         }
 
-        /* Neural Network Canvas */
-        .neural-canvas {
+        /* Animated Grid Background */
+        .grid-background {
           position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
+          inset: 0;
+          background-image: 
+            linear-gradient(rgba(6, 182, 212, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(139, 92, 246, 0.1) 1px, transparent 1px);
+          background-size: 50px 50px;
+          animation: grid-move 20s linear infinite;
           z-index: 1;
+        }
+
+        @keyframes grid-move {
+          0% {
+            transform: translate(0, 0);
+          }
+          100% {
+            transform: translate(50px, 50px);
+          }
+        }
+
+        /* Animated Lines */
+        .lines-container {
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+        }
+
+        .line {
+          position: absolute;
+          height: 2px;
+          background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.5), transparent);
+          animation: line-move linear infinite;
+        }
+
+        .line-1 { top: 10%; width: 80%; animation-duration: 8s; }
+        .line-2 { top: 25%; width: 60%; animation-duration: 10s; animation-delay: 1s; }
+        .line-3 { top: 40%; width: 70%; animation-duration: 12s; animation-delay: 2s; }
+        .line-4 { top: 55%; width: 65%; animation-duration: 9s; animation-delay: 0.5s; }
+        .line-5 { top: 70%; width: 75%; animation-duration: 11s; animation-delay: 1.5s; }
+        .line-6 { top: 85%; width: 55%; animation-duration: 10s; animation-delay: 2.5s; }
+        .line-7 { top: 15%; width: 90%; animation-duration: 13s; }
+        .line-8 { top: 95%; width: 85%; animation-duration: 15s; animation-delay: 3s; }
+
+        @keyframes line-move {
+          0% {
+            left: -100%;
+          }
+          100% {
+            left: 100%;
+          }
+        }
+
+        /* Floating Particles */
+        .particles-container {
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+        }
+
+        .particle {
+          position: absolute;
+          width: 4px;
+          height: 4px;
+          background: white;
+          border-radius: 50%;
+          animation: float-particle ease-in-out infinite;
+          box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .particle-1 { top: 10%; left: 15%; animation-duration: 6s; }
+        .particle-2 { top: 20%; left: 85%; animation-duration: 8s; animation-delay: 1s; }
+        .particle-3 { top: 30%; left: 25%; animation-duration: 7s; animation-delay: 2s; }
+        .particle-4 { top: 40%; left: 75%; animation-duration: 9s; }
+        .particle-5 { top: 50%; left: 15%; animation-duration: 6.5s; animation-delay: 1.5s; }
+        .particle-6 { top: 60%; left: 85%; animation-duration: 7.5s; animation-delay: 0.5s; }
+        .particle-7 { top: 70%; left: 30%; animation-duration: 8.5s; animation-delay: 2.5s; }
+        .particle-8 { top: 80%; left: 70%; animation-duration: 10s; }
+        .particle-9 { top: 15%; left: 50%; animation-duration: 9.5s; animation-delay: 1s; }
+        .particle-10 { top: 25%; left: 60%; animation-duration: 7s; animation-delay: 2s; }
+        .particle-11 { top: 35%; left: 40%; animation-duration: 8s; }
+        .particle-12 { top: 45%; left: 90%; animation-duration: 6s; animation-delay: 1.5s; }
+        .particle-13 { top: 55%; left: 10%; animation-duration: 9s; animation-delay: 0.5s; }
+        .particle-14 { top: 65%; left: 55%; animation-duration: 7.5s; animation-delay: 2.5s; }
+        .particle-15 { top: 75%; left: 20%; animation-duration: 8.5s; }
+        .particle-16 { top: 85%; left: 80%; animation-duration: 10s; animation-delay: 1s; }
+        .particle-17 { top: 12%; left: 35%; animation-duration: 6.5s; animation-delay: 2s; }
+        .particle-18 { top: 28%; left: 78%; animation-duration: 9.5s; }
+        .particle-19 { top: 48%; left: 45%; animation-duration: 7s; animation-delay: 1.5s; }
+        .particle-20 { top: 88%; left: 50%; animation-duration: 8s; animation-delay: 0.5s; }
+
+        @keyframes float-particle {
+          0%, 100% {
+            transform: translateY(0) scale(1);
+            opacity: 0.3;
+          }
+          50% {
+            transform: translateY(-30px) scale(1.5);
+            opacity: 1;
+          }
         }
 
         /* Gradient Orbs */
@@ -294,41 +304,15 @@ const Welcome = ({ onComplete }) => {
           animation: float-icon 6s ease-in-out infinite;
         }
 
-        .icon-1 {
-          top: 15%;
-          left: 15%;
-          animation-delay: 0s;
-        }
-
-        .icon-2 {
-          top: 20%;
-          right: 20%;
-          animation-delay: 0.5s;
-        }
-
-        .icon-3 {
-          top: 60%;
-          left: 10%;
-          animation-delay: 1s;
-        }
-
-        .icon-4 {
-          bottom: 20%;
-          right: 15%;
-          animation-delay: 1.5s;
-        }
-
-        .icon-5 {
-          bottom: 30%;
-          left: 25%;
-          animation-delay: 2s;
-        }
-
-        .icon-6 {
-          top: 40%;
-          right: 10%;
-          animation-delay: 2.5s;
-        }
+        .icon-1 { top: 15%; left: 15%; animation-delay: 0s; }
+        .icon-2 { top: 20%; right: 20%; animation-delay: 0.5s; }
+        .icon-3 { top: 60%; left: 10%; animation-delay: 1s; }
+        .icon-4 { bottom: 20%; right: 15%; animation-delay: 1.5s; }
+        .icon-5 { bottom: 30%; left: 25%; animation-delay: 2s; }
+        .icon-6 { top: 40%; right: 10%; animation-delay: 2.5s; }
+        .icon-7 { top: 35%; left: 8%; animation-delay: 0.8s; }
+        .icon-8 { bottom: 25%; right: 22%; animation-delay: 1.8s; }
+        .icon-9 { top: 50%; left: 18%; animation-delay: 1.2s; }
 
         @keyframes float-icon {
           0%, 100% {
@@ -455,32 +439,7 @@ const Welcome = ({ onComplete }) => {
           background-clip: text;
           color: transparent;
           animation: gradient-shift 4s ease infinite;
-          text-shadow: 
-            0 0 30px rgba(250, 204, 21, 0.4),
-            0 0 60px rgba(6, 182, 212, 0.3);
           letter-spacing: 0.05em;
-        }
-
-        .brand-name::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(120deg, transparent 30%, rgba(250, 204, 21, 0.8), transparent 70%);
-          background-size: 200% 100%;
-          animation: light-sweep 2.5s linear infinite;
-         -webkit-background-clip: text;
-          background-clip: text;
-          color: transparent;
-          pointer-events: none;
-        }
-
-        @keyframes light-sweep {
-          0% {
-            background-position: -200% 0;
-          }
-          100% {
-            background-position: 200% 0;
-          }
         }
 
         @keyframes gradient-shift {
@@ -598,11 +557,6 @@ const Welcome = ({ onComplete }) => {
 
           .brand-name {
             font-size: 3rem;
-          }
-
-          .icon-wrapper {
-            width: 32px;
-            height: 32px;
           }
 
           .icon-wrapper svg {
