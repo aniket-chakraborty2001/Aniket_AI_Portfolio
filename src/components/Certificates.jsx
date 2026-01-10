@@ -59,7 +59,7 @@ const Certificates = () => {
   ];
 
   useEffect(() => {
-    autoPlayRef.current = setInterval(() => next(), 2500);
+    autoPlayRef.current = setInterval(() => next(), window.innerWidth < 768 ? 3500 : 2500);
     return () => clearInterval(autoPlayRef.current);
   }, [currentIndex]);
 
@@ -87,14 +87,14 @@ const Certificates = () => {
   return (
     <section
       id="certificates"
-      className="min-h-screen py-24 px-6 relative overflow-hidden"
+      className="min-h-[auto] md:min-h-screen py-16 md:py-24 px-4 md:px-6 relative overflow-hidden"
       style={{
         background: "linear-gradient(to bottom, #020617, #0f172a, #020617)"
       }}
     >
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Title */}
-        <div className="text-center mb-16">
+        <div className="cert-header text-center mb-16">
           <h2 className="certi-text text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-purple-400 to-cyan-400 inline-block animate-gradient bg-300% leading-[1.2] pb-2">
             Certificates And Training
           </h2>
@@ -120,9 +120,21 @@ const Certificates = () => {
                   cert.offset === 0 ? "active" : ""
                 }`}
                 style={{
-                  transform: `translateX(${cert.offset * 200}px) scale(${
-                    cert.offset === 0 ? 1 : 0.75
-                  })`,
+                  // transform: `translateX(${cert.offset * 200}px) scale(${
+                  //   cert.offset === 0 ? 1 : 0.75
+                  // })`,
+                  transform: `
+                    translateX(${
+                      typeof window !== 'undefined' && window.innerWidth < 768
+                        ? cert.offset * 120
+                        : cert.offset * 200
+                    }px)
+                    scale(${
+                      typeof window !== 'undefined' && window.innerWidth < 768
+                        ? cert.offset === 0 ? 0.95 : 0.65
+                        : cert.offset === 0 ? 1 : 0.75
+                    })
+                  `,
                   zIndex: 10 - Math.abs(cert.offset),
                   opacity: Math.abs(cert.offset) > 1 ? 0.25 : 1
                 }}
@@ -323,6 +335,54 @@ const Certificates = () => {
         }
         .nav-btn.right {
           right: -4rem;
+        }
+
+        @media (max-width: 768px) {
+          .cert-header {
+            margin-bottom: 2.5rem;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .carousel {
+            height: 340px;
+          }
+        }
+          
+        @media (max-width: 768px) {
+          .card {
+            width: 300px;
+            height: 340px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .nav-btn {
+            display: none;
+          }
+        }
+          
+        @media (max-width: 768px) {
+          .title {
+            font-size: 1.2rem;
+          }
+
+          .issuer,
+          .date {
+            font-size: 0.85rem;
+          }
+
+          .skills span {
+            font-size: 0.7rem;
+            padding: 0.35rem 0.6rem;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .btn {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.85rem;
+          }
         }
       `}</style>
     </section>

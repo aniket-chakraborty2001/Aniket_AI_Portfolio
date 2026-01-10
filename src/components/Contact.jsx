@@ -89,7 +89,7 @@ const Contact = () => {
     <section
       id="contact"
       ref={sectionRef}
-      className="min-h-screen relative py-20 px-6 overflow-hidden"
+      className="min-h-screen relative py-12 md:py-20 px-4 md:px-6 overflow-hidden"
       style={{
         background: 'linear-gradient(to bottom, #0a0a1a 0%, #0f0a1f 50%, #0a0a1a 100%)'
       }}
@@ -118,7 +118,7 @@ const Contact = () => {
 
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Section Title */}
-        <div className="text-center mb-16">
+        <div className="contact-header text-center mb-16">
           <h2 className="con-text text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-purple-400 to-cyan-400 inline-block animate-gradient bg-300% leading-[1.2] pb-2">
             Get In Touch
           </h2>
@@ -704,6 +704,23 @@ const Contact = () => {
 
           .contact-card-content {
             padding: 1.5rem;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .contact-header {
+            margin-bottom: 2.5rem;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .con-text {
+            letter-spacing: 0.06em;
+          }
+
+          .contact-header p {
+            margin-top: 0.75rem;
+            font-size: 0.95rem;
           }
         }
       `}</style>
