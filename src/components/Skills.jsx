@@ -8,6 +8,7 @@ const Skills = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const sectionRef = useRef(null);
   const autoPlayRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Array of skills with timeline and experience
   const SKILLS = [
@@ -84,6 +85,13 @@ const Skills = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
   // Auto-play carousel
   useEffect(() => {
     autoPlayRef.current = setInterval(() => {
@@ -131,6 +139,7 @@ const Skills = () => {
   };
 
   const visibleSkills = getVisibleSkills();
+  const activeSkill = SKILLS[currentIndex] || SKILLS[0];
 
   return (
     <section
@@ -189,18 +198,22 @@ const Skills = () => {
                 className={`carousel-skill ${skill.offset === 0 ? 'carousel-skill-active' : ''}`}
                 // style={{
                 //   transform: `translateX(${skill.offset * 140}px) scale(${skill.offset === 0 ? 1.5 : 0.7})`,
+                // style={{
+                //   transform: `
+                //     translateX(${
+                //       typeof window !== 'undefined' && window.innerWidth < 768
+                //           ? skill.offset * 90
+                //           : skill.offset * 140
+                //     }px)
+                //     scale(${
+                //       typeof window !== 'undefined' && window.innerWidth < 768
+                //         ? skill.offset === 0 ? 1.2 : 0.6
+                //         : skill.offset === 0 ? 1.5 : 0.7
+                //     })
                 style={{
                   transform: `
-                    translateX(${
-                      typeof window !== 'undefined' && window.innerWidth < 768
-                          ? skill.offset * 90
-                          : skill.offset * 140
-                    }px)
-                    scale(${
-                      typeof window !== 'undefined' && window.innerWidth < 768
-                        ? skill.offset === 0 ? 1.2 : 0.6
-                        : skill.offset === 0 ? 1.5 : 0.7
-                    })
+                    translateX(${skill.offset * (isMobile ? 90 : 140)}px)
+                    scale(${skill.offset === 0 ? (isMobile ? 1.2 : 1.5) : (isMobile ? 0.6 : 0.7)})
                   `,
                   zIndex: skill.offset === 0 ? 10 : 5 - Math.abs(skill.offset),
                   opacity: Math.abs(skill.offset) > 1 ? 0.3 : 1
@@ -225,29 +238,29 @@ const Skills = () => {
 
           {/* Skill Details */}
           <div className="skill-details">
-            <h3 className="skill-details-name">{SKILLS[currentIndex].name}</h3>
+            <h3 className="skill-details-name">{activeSkill.name}</h3>
             
             <div className="skill-details-info">
               <div className="skill-info-item">
                 <Calendar className="w-5 h-5 text-cyan-400" />
                 <span className="skill-info-label">Timeline:</span>
-                <span className="skill-info-value">{SKILLS[currentIndex].timeline}</span>
+                <span className="skill-info-value">{activeSkill.timeline}</span>
               </div>
 
               <div className="skill-info-item">
                 <TrendingUp 
                   className="w-5 h-5" 
-                  style={{ color: getExperienceColor(SKILLS[currentIndex].experience) }}
+                  style={{ color: getExperienceColor(activeSkill.experience) }}
                 />
                 <span className="skill-info-label">Experience:</span>
                 <span 
                   className="skill-info-value skill-experience-badge"
                   style={{ 
-                    color: getExperienceColor(SKILLS[currentIndex].experience),
-                    borderColor: getExperienceColor(SKILLS[currentIndex].experience)
+                    color: getExperienceColor(activeSkill.experience),
+                    borderColor: getExperienceColor(activeSkill.experience)
                   }}
                 >
-                  {getExperienceLabel(SKILLS[currentIndex].experience)}
+                  {getExperienceLabel(activeSkill.experience)}
                 </span>
               </div>
             </div>
@@ -657,10 +670,10 @@ const Skills = () => {
           }
         }
 
-      @media (max-width: 768px) {
-        .skills-carousel {
-          height: 220px;
-        }
+      // @media (max-width: 768px) {
+      //   .skills-carousel {
+      //     height: 220px;
+      //   }
 
         .skill-carousel-card {
           width: 90px;
