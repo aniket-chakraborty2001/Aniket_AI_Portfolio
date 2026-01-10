@@ -210,19 +210,19 @@ const Certificates = () => {
         }
 
         /* 🔹 Soft cyan / indigo glow (NO YELLOW) */
-        .card-glow {
-          position: absolute;
-          inset: -6px;
-          background: linear-gradient(
-            135deg,
-            rgba(34, 211, 238, 0.6),
-            rgba(99, 102, 241, 0.6)
-          );
-          border-radius: 1.5rem;
-          opacity: 0;
-          filter: blur(40px);
-          pointer-events: none;
-        }
+        // .card-glow {
+        //   position: absolute;
+        //   inset: -6px;
+        //   background: linear-gradient(
+        //     135deg,
+        //     rgba(34, 211, 238, 0.6),
+        //     rgba(99, 102, 241, 0.6)
+        //   );
+        //   border-radius: 1.5rem;
+        //   opacity: 0;
+        //   filter: blur(40px);
+        //   pointer-events: none;
+        // }
 
         .card.active .card-glow {
           opacity: 0.8;

@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Github, Linkedin, Download } from "lucide-react";
+import { Github, Linkedin, Download, Menu, X } from "lucide-react";
 
 const NAVBAR_HEIGHT = 90;
 
 const Navbar = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const navItems = [
     { id: 'home', label: 'Home' },
@@ -42,6 +43,7 @@ const Navbar = () => {
   }, []);
 
   const scrollToSection = (sectionId) => {
+    setActiveSection(sectionId);
     const section = document.getElementById(sectionId);
     if (section) {
       section.scrollIntoView({ behavior: 'smooth' });
@@ -55,7 +57,7 @@ const Navbar = () => {
           scrolled ? 'py-3' : 'py-5'
         }`}
       >
-        <div className="w-full px-10">
+        <div className="w-full px-4 md:px-10">
           <div
             className={`glass-navbar rounded-full px-8 py-4 flex items-center justify-between transition-all duration-300 ${
               scrolled ? 'shadow-glow-strong' : 'shadow-glow'
@@ -74,7 +76,7 @@ const Navbar = () => {
             </div>
 
             {/* Navigation Items */}
-            <ul className="flex items-center space-x-2">
+            <ul className="hidden md:flex items-center space-x-2">
               {navItems.map((item, index) => (
                 <li key={item.id} className="nav-item-wrapper">
                   <button
@@ -107,7 +109,7 @@ const Navbar = () => {
             </ul>
 
             {/* Right-side actions */}
-            <div className="flex items-center gap-4 ml-6">
+            <div className="hidden md:flex items-center gap-4 ml-6">
             
             {/* GitHub */}
             <div className="tooltip-wrapper">
@@ -116,7 +118,6 @@ const Navbar = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="icon-btn"
-                aria-label="GitHub"
               >
                 <Github size={26} />  
               </a>
@@ -130,7 +131,6 @@ const Navbar = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="icon-btn"
-                aria-label="LinkedIn"
               >
                 <Linkedin size={26} />
               </a>
@@ -143,17 +143,98 @@ const Navbar = () => {
                 href="/resume/Aniket_Chakraborty_Resume.pdf"
                 download
                 className="icon-btn resume-btn"
-                aria-label="Download Resume"
               >
                 <Download size={26} />
               </a>
               <span className="tooltip">Resume</span>
             </div>
-
             </div>
+
+            {/* Mobile Hamburger */}
+            {/* <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="md:hidden text-white p-2"
+            >
+              {menuOpen ? <X size={32} /> : <Menu size={32} />}
+            </button> */}
+
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="md:hidden relative w-10 h-10 flex items-center justify-center"
+            >
+              <span
+                className={`absolute transition-all duration-500 ease-in-out transform ${
+                  menuOpen ? 'rotate-180 scale-0 opacity-0' : 'rotate-0 scale-100 opacity-100'
+                }`}
+              >
+                <Menu size={32} />
+              </span>
+
+              <span
+                className={`absolute transition-all duration-500 ease-in-out transform ${
+                  menuOpen ? 'rotate-0 scale-100 opacity-100' : '-rotate-180 scale-0 opacity-0'
+                }`}
+              >
+                <X size={32} />
+              </span>
+            </button>
+
           </div>
         </div>
       </nav>
+
+      {/* Mobile Menu */ }
+      {menuOpen && (
+        <div className="fixed top-[100px] left-0 right-0 z-40 md:hidden px-6">
+          <div className="glass-navbar rounded-2xl p-6 flex flex-col gap-4 shadow-glow-strong">
+      
+            {/* Nav Items */}
+            {navItems.map(item => (
+              <button
+                key={item.id}
+                onClick={() => {
+                  scrollToSection(item.id);
+                  setMenuOpen(false);
+                }}
+                className="mobile-nav-item nav-text text-yellow-400 text-lg font-semibold py-3 rounded-xl hover:bg-white/10 transition"
+                style={{ animationDelay: `${navItems.indexOf(item) * 0.06}s` }}
+              >
+                {item.label}
+              </button>
+            ))}
+
+            {/* Divider */}
+            <div className="h-px bg-white/20 my-2" />
+
+            {/* Icons */}
+            <div className="flex justify-center gap-6">
+              <a
+                href="https://github.com/aniket-chakraborty2001"
+                target="_blank"
+                className="icon-btn"
+              >
+                <Github size={26} />
+              </a>
+
+              <a
+                href="https://www.linkedin.com/in/aniket-chakraborty20022001/"
+                target="_blank"
+                className="icon-btn"
+              >
+                <Linkedin size={26} />
+              </a>
+
+              <a
+                href="/resume/Aniket_Chakraborty_Resume.pdf"
+                download
+                className="icon-btn resume-btn"
+              >
+                <Download size={26} />
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Styles */}
       <style jsx>{`
@@ -209,6 +290,11 @@ const Navbar = () => {
             opacity: 1;
             transform: translateY(0);
           }
+        }
+
+        .mobile-nav-item {
+          animation: slideDown 0.45s ease-out forwards;
+          opacity: 0;
         }
 
         /* Hover Effects */
@@ -416,6 +502,13 @@ const Navbar = () => {
           .nav-item {
             padding-left: 0.75rem;
             padding-right: 0.75rem;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .mobile-nav-item {
+            font-size: 0.95rem;
+            letter-spacing: 0.14em;
           }
         }
 
