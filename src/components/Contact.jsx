@@ -2,9 +2,12 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Mail, MapPin, Send, CheckCircle, User, MessageSquare } from 'lucide-react';
+import Lottie from 'lottie-react';
+import mailbox from '@/public/animations/mailbox.json';
 
 const Contact = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [showMailAnimation, setShowMailAnimation] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -24,16 +27,22 @@ const Contact = () => {
       { threshold: 0.2 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
   }, []);
+
+  //   if (sectionRef.current) {
+  //     observer.observe(sectionRef.current);
+  //   }
+
+  //   return () => {
+  //     if (sectionRef.current) {
+  //       observer.unobserve(sectionRef.current);
+  //     }
+  //   };
+  // }, []);
+
+  
 
   const handleChange = (e) => {
     setFormData({
@@ -50,9 +59,9 @@ const Contact = () => {
     try {
       // EmailJS configuration
       // Replace these with your actual EmailJS credentials
-      const serviceID = 'YOUR_SERVICE_ID'; // Replace with your EmailJS service ID
-      const templateID = 'YOUR_TEMPLATE_ID'; // Replace with your EmailJS template ID
-      const publicKey = 'YOUR_PUBLIC_KEY'; // Replace with your EmailJS public key
+      const serviceID = 'service_tuuafrp'; // Replace with your EmailJS service ID
+      const templateID = 'template_ijjauhr'; // Replace with your EmailJS template ID
+      const publicKey = 'QO6TqjKXvVdEI8lDP'; // Replace with your EmailJS public key
 
       // Import emailjs-com library (you need to install it: npm install @emailjs/browser)
       const emailjs = (await import('@emailjs/browser')).default;
@@ -71,6 +80,14 @@ const Contact = () => {
 
       setSubmitStatus('success');
       setFormData({ name: '', email: '', message: '' });
+
+      setShowMailAnimation(true);
+
+      setTimeout(() => {
+        setShowMailAnimation(false);
+      }, 3000);
+
+      
     } catch (error) {
       console.error('Email send error:', error);
       setSubmitStatus('error');
@@ -90,6 +107,14 @@ const Contact = () => {
         background: 'linear-gradient(to bottom, #0a0a1a 0%, #0f0a1f 50%, #0a0a1a 100%)'
       }}
     >
+      
+      {/* MAILBOX SUCCESS ANIMATION */}
+      {showMailAnimation && (
+        <div className="mailbox-animation">
+          <Lottie animationData={mailbox} loop={false} />
+        </div>
+      )}
+      
       {/* Background Effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute w-96 h-96 bg-cyan-600 rounded-full mix-blend-screen filter blur-3xl opacity-10 top-20 left-20 animate-float-slow" />
@@ -299,6 +324,28 @@ const Contact = () => {
 
       {/* Styles */}
       <style jsx>{`
+        
+        .mailbox-animation {
+          position: fixed;
+          top: 40%;
+          left: -200px;
+          width: 200px;
+          z-index: 9999;
+          animation: mail-fly 3s ease-in-out forwards;
+          pointer-events: none;
+        }
+
+        @keyframes mail-fly {
+          0% {
+            transform: translateX(0);
+            opacity: 1;
+          }
+          100% {
+            transform: translateX(calc(100vw + 400px));
+            opacity: 1;
+          }
+        }
+        
         /* Float Animations */
         @keyframes float-slow {
           0%, 100% { transform: translate(0, 0) rotate(0deg); }
