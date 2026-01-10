@@ -263,8 +263,8 @@ const Skills = () => {
           ].map((stat, index) => (
             <div
               key={index}
-              className={`stat-card transition-all duration-700 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+              className={`stat-card ${
+                isVisible ? 'stat-visible' : 'stat-hidden'
               }`}
               style={{ transitionDelay: `${1.5 + index * 0.1}s` }}
             >
@@ -549,20 +549,59 @@ const Skills = () => {
 
         /* Stats Card */
         .stat-card {
+          position: relative;
           background: rgba(15, 10, 31, 0.6);
           backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
+          // -webkit-backdrop-filter: blur(20px);
           border: 1px solid rgba(139, 92, 246, 0.3);
           border-radius: 1rem;
           padding: 1.5rem;
           text-align: center;
-          transition: all 0.3s ease;
+          transition: scale 0.12s ease-out,
+                      box-shadow 0.12s ease-out,
+                      border-color 0.12s ease-out;
+        }
+
+        .stat-hidden {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+
+        .stat-visible {
+          opacity: 1;
+          transform: translateY(0);
+          transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .stat-card::before {
+          content: '';
+          position: absolute;
+          inset: -2px;
+          border-radius: 1rem;
+          background: linear-gradient(
+            135deg,
+            transparent,
+            rgba(196, 154, 123, 0.6),
+            rgba(83, 173, 104, 0.6),
+            transparent
+          );
+          opacity: 0;
+          filter: blur(10px);
+          transition: opacity 0.3s ease;
+          z-index: -1;
+        }
+
+        .stat-card:hover::before {
+          opacity: 1;
         }
 
         .stat-card:hover {
-          transform: translateY(-5px);
-          border-color: rgba(139, 92, 246, 0.6);
-          box-shadow: 0 10px 30px rgba(139, 92, 246, 0.2);
+          scale: 1.2;
+          border-color: rgba(139, 92, 246, 0.8);
+          box-shadow: 
+            0 0 20px rgba(192, 223, 40, 0.96),
+            0 0 40px rgba(41, 26, 111, 1),
+            inset 0 0 20px rgba(139, 92, 246, 0.15);
         }
 
         @font-face {
