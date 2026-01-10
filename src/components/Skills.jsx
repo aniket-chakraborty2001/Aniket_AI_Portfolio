@@ -88,7 +88,7 @@ const Skills = () => {
   useEffect(() => {
     autoPlayRef.current = setInterval(() => {
       nextSkill();
-    }, 2000);
+    }, window.innerWidth < 768 ? 3000 : 2000);
 
     return () => {
       if (autoPlayRef.current) {
@@ -136,7 +136,7 @@ const Skills = () => {
     <section
       id="skills"
       ref={sectionRef}
-      className="min-h-screen relative py-20 px-6 overflow-hidden"
+      className="min-h-screen relative py-16 md:py-20 px-4 md:px-6 overflow-hidden"
       style={{
         background: 'linear-gradient(to bottom, #0a0a1a 0%, #0f0a1f 50%, #0a0a1a 100%)'
       }}
@@ -187,8 +187,21 @@ const Skills = () => {
               <div
                 key={skill.index}
                 className={`carousel-skill ${skill.offset === 0 ? 'carousel-skill-active' : ''}`}
+                // style={{
+                //   transform: `translateX(${skill.offset * 140}px) scale(${skill.offset === 0 ? 1.5 : 0.7})`,
                 style={{
-                  transform: `translateX(${skill.offset * 140}px) scale(${skill.offset === 0 ? 1.5 : 0.7})`,
+                  transform: `
+                    translateX(${
+                      typeof window !== 'undefined' && window.innerWidth < 768
+                          ? skill.offset * 90
+                          : skill.offset * 140
+                    }px)
+                    scale(${
+                      typeof window !== 'undefined' && window.innerWidth < 768
+                        ? skill.offset === 0 ? 1.2 : 0.6
+                        : skill.offset === 0 ? 1.5 : 0.7
+                    })
+                  `,
                   zIndex: skill.offset === 0 ? 10 : 5 - Math.abs(skill.offset),
                   opacity: Math.abs(skill.offset) > 1 ? 0.3 : 1
                 }}
@@ -254,7 +267,7 @@ const Skills = () => {
         </div>
 
         {/* Stats Section */}
-        <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+        <div className="mt-16 md:mt-20 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-4xl mx-auto">
           {[
             { number: '30+', label: 'Technologies', color: 'cyan' },
             { number: '1+', label: 'Years Experience', color: 'purple' },
@@ -643,6 +656,53 @@ const Skills = () => {
             transform: translateX(${skill => skill.offset * 100}px) scale(${skill => skill.offset === 0 ? 1.3 : 0.6}) !important;
           }
         }
+
+      @media (max-width: 768px) {
+        .skills-carousel {
+          height: 220px;
+        }
+
+        .skill-carousel-card {
+          width: 90px;
+          height: 90px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .carousel-nav-btn {
+          display: none;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .skill-details {
+          padding: 1.5rem;
+        }
+
+        .skill-details-name {
+          font-size: 1.8rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .skill-info-item:hover,
+        .stat-card:hover {
+          transform: none;
+          scale: 1;
+          box-shadow: none;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .stat-card:hover {
+          scale: 1;
+        }
+
+        .stat-card {
+          padding: 1.25rem;
+        }
+      }
+
       `}</style>
     </section>
   );
