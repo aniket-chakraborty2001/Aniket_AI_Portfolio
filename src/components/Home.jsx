@@ -11,42 +11,60 @@ const Home = () => {
   ======================= */
   const fullText = "Building Intelligence with AI";
   const [displayText, setDisplayText] = useState("");
-  const [showCursor, setShowCursor] = useState(true);
-  const [typingDone, setTypingDone] = useState(false);
-
+  //const [showCursor, setShowCursor] = useState(true);
+  const [isTyping, setIsTyping] = useState(true);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   /* =======================
-     Typing Animation
+     Continuous Typing Animation
   ======================= */
   useEffect(() => {
-    let index = 0;
+    let timeout;
 
-    const typingInterval = setInterval(() => {
-      index++;
-      setDisplayText(fullText.slice(0, index));
+    const typeSpeed = 80;
+    const deleteSpeed = 50;
+    const pauseAfterTyping = 2000;
+    const pauseAfterDeleting = 500;
 
-      if (index >= fullText.length) {
-        clearInterval(typingInterval);
-        setTypingDone(true);
-        setShowCursor(false);
+    if (isTyping && !isDeleting) {
+      // Typing forward
+      if (displayText.length < fullText.length) {
+        timeout = setTimeout(() => {
+          setDisplayText(fullText.slice(0, displayText.length + 1));
+        }, typeSpeed);
+      } else {
+        // Finished typing, pause then start deleting
+        timeout = setTimeout(() => {
+          setIsDeleting(true);
+        }, pauseAfterTyping);
       }
-    }, 80);
+    } else if (isDeleting) {
+      // Deleting backward
+      if (displayText.length > 0) {
+        timeout = setTimeout(() => {
+          setDisplayText(displayText.slice(0, -1));
+        }, deleteSpeed);
+      } else {
+        // Finished deleting, pause then start typing again
+        timeout = setTimeout(() => {
+          setIsDeleting(false);
+        }, pauseAfterDeleting);
+      }
+    }
 
-    return () => clearInterval(typingInterval);
-  }, [fullText]);
+    return () => clearTimeout(timeout);
+  }, [displayText, isTyping, isDeleting, fullText]);
 
   /* =======================
      Blinking Cursor
   ======================= */
-  useEffect(() => {
-    if (typingDone) return;
-    
-    const cursorInterval = setInterval(() => {
-      setShowCursor((prev) => !prev);
-    }, 500);
+  // useEffect(() => {
+  //   const cursorInterval = setInterval(() => {
+  //     setShowCursor((prev) => !prev);
+  //   }, 500);
 
-    return () => clearInterval(cursorInterval);
-  }, [typingDone]);
+  //   return () => clearInterval(cursorInterval);
+  // }, []);
 
   /* =======================
      Canvas Background
@@ -152,9 +170,9 @@ const Home = () => {
           <span className="bg-gradient-to-r from-yellow-400 via-cyan-400 to-yellow-400 bg-clip-text text-transparent">
             {displayText}
           </span>
-          <span className="text-cyan-400 ml-1">
+          {/* <span className="text-cyan-400 ml-1">
             {showCursor ? "|" : " "}
-          </span>
+          </span> */}
         </h1>
 
         {/* Subtitle */}
