@@ -28,7 +28,7 @@ const About = () => {
     <section
       id="about"
       ref={sectionRef}
-      className="min-h-screen py-20 px-6 relative overflow-hidden"
+      className="min-h-screen py-16 md:py-20 px-4 md:px-6 relative overflow-hidden"
       style={{
         background:
           "linear-gradient(to bottom, #0a0a1a 0%, #1a0a2e 50%, #0a0a1a 100%)",
@@ -50,14 +50,14 @@ const About = () => {
         </div>
 
         {/* =================== IMAGE STACK =================== */}
-        <div className="flex justify-center items-center relative h-80 mb-20">
+        <div className="flex flex-col md:flex-row justify-center items-center relative md:h-80 mb-16 gap-8">
           {/* Left */}
           <div
             className={`absolute transition-all duration-1000 ${
               isVisible ? "left-image-final" : "left-image-initial"
             }`}
           >
-            <div className="relative w-64 h-80 rounded-2xl overflow-hidden border-2 border-cyan-500/30">
+            <div className="relative w-56 h-72 md:w-64 md:h-80 rounded-2xl overflow-hidden border-2 border-cyan-500/30">
               <Image
                 src="/Images/Picture_1.jpg"
                 alt="Aniket Chakraborty"
@@ -74,7 +74,7 @@ const About = () => {
               isVisible ? "right-image-final" : "right-image-initial"
             }`}
           >
-            <div className="relative w-64 h-80 rounded-2xl overflow-hidden border-2 border-purple-500/30">
+            <div className="relative w-56 h-72 md:w-64 md:h-80 rounded-2xl overflow-hidden border-2 border-purple-500/30">
               <Image
                 src="/Images/Picture_2.jpg"
                 alt="Aniket Chakraborty"
@@ -88,10 +88,10 @@ const About = () => {
 
         {/* =================== NAME =================== */}
         <div className="text-center mb-20">
-          <h3 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          <h3 className="text-3xl md:text-5xl font-bold text-white mb-3 text-center">
             Aniket Chakraborty
           </h3>
-          <div className="flex justify-center gap-3 text-lg">
+          <div className="flex flex-wrap justify-center gap-3 text-base md:text-lg">
             <span className="text-cyan-400">AI/ML Professional</span>
             <span className="text-gray-500">•</span>
             <span className="text-purple-400">Researcher</span>
@@ -162,7 +162,7 @@ const About = () => {
               Areas of Expertise
             </h4>
 
-            <div className="grid md:grid-cols-3 gap-10 text-center">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
               <Expertise
                 title="AI Development"
                 color="cyan"
@@ -302,6 +302,37 @@ const About = () => {
         .role-item.cyan::before { background: #22d3ee; }
         .role-item.purple::before { background: #a855f7; }
         .role-item.yellow::before { background: #facc15; }
+
+      @media (max-width: 768px) {
+        .left-image-initial,
+        .left-image-final,
+        .right-image-initial,
+        .right-image-final {
+          position: static !important;
+          transform: none !important;
+          opacity: 1 !important;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .info-card:hover {
+          transform: none;
+          box-shadow:
+            0 8px 32px rgba(0, 0, 0, 0.35),
+            inset 0 0 30px rgba(255, 255, 255, 0.03);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .about-text {
+          font-size: 2.5rem;
+          letter-spacing: 0.06em;
+        }
+
+        .section-title {
+          font-size: 1.25rem;
+        }
+      }
       `}</style>
     </section>
   );
@@ -310,7 +341,7 @@ const About = () => {
 const Expertise = ({ title, text, color }) => (
   <div>
     <div
-      className={`w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center border border-${color}-500/30`}
+      className={`w-16 h-16 md:w-20 md:h-20 mx-auto mb-4 rounded-full flex items-center justify-center border border-${color}-500/30`}
     >
       <Code className="text-yellow-400 w-8 h-8" />
     </div>
