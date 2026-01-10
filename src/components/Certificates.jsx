@@ -95,8 +95,8 @@ const Certificates = () => {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Title */}
         <div className="text-center mb-16">
-          <h2 className="text-5xl font-bold text-cyan-300">
-            Certificates & Training
+          <h2 className="certi-text text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-purple-400 to-cyan-400 inline-block animate-gradient bg-300% leading-[1.2] pb-2">
+            Certificates And Training
           </h2>
           <p className="text-slate-400 mt-4">
             Formal training and skill validation
@@ -166,6 +166,34 @@ const Certificates = () => {
       </div>
 
       <style jsx>{`
+        
+        @font-face {
+          font-family: 'CertiFont';
+          src: url('/navheadingfonts/Polea Extra Bold DEMO.otf') format('opentype');
+          font-weight: normal;
+          font-style: normal;
+          font-display: swap;
+        }
+
+        .certi-text {
+          font-family: 'CertiFont', sans-serif;
+          letter-spacing: 0.08em;
+        }
+
+        @keyframes gradient {
+          0% { background-position: 0% 50%; }
+          50% {  background-position: 100% 50%; }
+          100% {  background-position: 0% 50%; }
+        }
+
+        .animate-gradient {
+          animation: gradient 4s ease infinite;
+        }
+
+        .bg-300\% {
+          background-size: 300%;
+        }
+        
         .carousel {
           position: relative;
           height: 450px;

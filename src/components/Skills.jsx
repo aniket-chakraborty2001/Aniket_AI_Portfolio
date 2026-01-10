@@ -153,8 +153,8 @@ const Skills = () => {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Title */}
         <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-purple-400 to-yellow-400 inline-block animated-gradient-text bg-300% leading-[1.2] pb-2">
-            Skills & Technologies
+          <h2 className="skill-text text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-purple-400 to-yellow-400 inline-block animated-gradient-text bg-300% leading-[1.2] pb-2">
+            Skills And Technologies
           </h2>
           <div className="h-1 w-32 bg-gradient-to-r from-purple-500 to-cyan-600 mx-auto mt-4 rounded-full" />
           <p className="text-gray-400 mt-6 text-lg max-w-2xl mx-auto">
@@ -563,6 +563,19 @@ const Skills = () => {
           transform: translateY(-5px);
           border-color: rgba(139, 92, 246, 0.6);
           box-shadow: 0 10px 30px rgba(139, 92, 246, 0.2);
+        }
+
+        @font-face {
+          font-family: 'SkillFont';
+          src: url('/navheadingfonts/Polea Extra Bold DEMO.otf') format('opentype');
+          font-weight: normal;
+          font-style: normal;
+          font-display: swap;
+        }
+
+        .skill-text {
+          font-family: 'SkillFont', sans-serif;
+          letter-spacing: 0.08em;
         }
 
         /* Color utilities for stats */

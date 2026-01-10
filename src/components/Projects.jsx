@@ -114,8 +114,8 @@ const Projects = () => {
 
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-purple-400 to-yellow-400 inline-block animate-gradient bg-300% leading-[1.2] pb-2">
-            Experience & Projects
+          <h2 className="exp-text text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-purple-400 to-yellow-400 inline-block animate-gradient bg-300% leading-[1.2] pb-2">
+            Experience And Projects
           </h2>
           <p className="text-gray-400 mt-4">
             AI / ML systems built with production-ready design
@@ -277,6 +277,19 @@ const Projects = () => {
           background: rgba(15, 10, 31, 0.85);
           border-radius: 2rem;
           padding: 2rem;
+        }
+
+        @font-face {
+          font-family: 'ExpFont';
+          src: url('/navheadingfonts/Polea Extra Bold DEMO.otf') format('opentype');
+          font-weight: normal;
+          font-style: normal;
+          font-display: swap;
+        }
+
+        .exp-text {
+          font-family: 'ExpFont', sans-serif;
+          letter-spacing: 0.08em;
         }
 
         .project-image-container,

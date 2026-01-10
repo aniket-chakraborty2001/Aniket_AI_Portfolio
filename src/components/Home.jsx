@@ -167,7 +167,7 @@ const Home = () => {
       <div className="relative z-10 text-center px-6 max-w-6xl mx-auto">
         {/* Typing Heading */}
         <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-          <span className="bg-gradient-to-r from-yellow-400 via-cyan-400 to-yellow-400 bg-clip-text text-transparent">
+          <span className="hero-text bg-gradient-to-r from-yellow-400 via-cyan-400 to-yellow-400 bg-clip-text text-transparent">
             {displayText}
           </span>
           {/* <span className="text-cyan-400 ml-1">
@@ -232,6 +232,22 @@ const Home = () => {
           Learn More About Me
         </button>
       </div>
+
+      <style jsx>{`
+      
+        @font-face {
+          font-family: 'HeroFont';
+          src: url('/navheadingfonts/Polea Extra Bold DEMO.otf') format('opentype');
+          font-weight: normal;
+          font-style: normal;
+          font-display: swap;
+        }
+
+        .hero-text {
+          font-family: 'HeroFont', sans-serif;
+          letter-spacing: 0.08em;
+        }
+      `}</style>
     </section>
   );
 };

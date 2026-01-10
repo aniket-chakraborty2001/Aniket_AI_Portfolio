@@ -108,7 +108,7 @@ const Education = () => {
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Section Title */}
         <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-purple-400 to-yellow-400 inline-block animate-gradient bg-300%">
+          <h2 className="edu-text text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-purple-400 to-yellow-400 inline-block animate-gradient bg-300%">
             Education
           </h2>
           <div className="h-1 w-32 bg-gradient-to-r from-yellow-500 to-purple-600 mx-auto mt-4 rounded-full" />
@@ -276,6 +276,19 @@ const Education = () => {
 
         .animate-float-education {
           animation: float-education 20s ease-in-out infinite;
+        }
+
+        @font-face {
+          font-family: 'EduFont';
+          src: url('/navheadingfonts/Polea Extra Bold DEMO.otf') format('opentype');
+          font-weight: normal;
+          font-style: normal;
+          font-display: swap;
+        }
+
+        .edu-text {
+          font-family: 'EduFont', sans-serif;
+          letter-spacing: 0.08em;
         }
 
         .animate-float-education-delayed {

@@ -43,7 +43,7 @@ const About = () => {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-purple-400 to-yellow-400 inline-block animate-gradient bg-300%">
+          <h2 className="about-text text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-purple-400 to-yellow-400 inline-block animate-gradient bg-300%">
             About Me
           </h2>
           <div className="h-1 w-32 bg-gradient-to-r from-cyan-500 to-purple-600 mx-auto mt-4 rounded-full" />
@@ -284,6 +284,19 @@ const About = () => {
           width: 8px;
           height: 8px;
           border-radius: 999px;
+        }
+
+        @font-face {
+          font-family: 'AboutFont';
+          src: url('/navheadingfonts/Polea Extra Bold DEMO.otf') format('opentype');
+          font-weight: normal;
+          font-style: normal;
+          font-display: swap;
+        }
+
+        .about-text {
+          font-family: 'AboutFont', sans-serif;
+          letter-spacing: 0.08em;
         }
 
         .role-item.cyan::before { background: #22d3ee; }

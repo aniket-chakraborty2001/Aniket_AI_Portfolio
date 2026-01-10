@@ -701,8 +701,8 @@ const Internship = () => {
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Section Title */}
         <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-purple-400 to-cyan-400 inline-block animate-gradient bg-300% leading-[1.2] pb-2">
-            Internship & Previous Work Experience
+          <h2 className="intern-text text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-purple-400 to-cyan-400 inline-block animate-gradient bg-300% leading-[1.2] pb-2">
+            Internship And Previous Work Experience
           </h2>
           <div className="h-1 w-32 bg-gradient-to-r from-yellow-500 via-purple-600 to-cyan-500 mx-auto mt-4 rounded-full" />
           <p className="text-gray-400 mt-6 text-lg">
@@ -880,6 +880,19 @@ const Internship = () => {
 
         .animate-float-slow {
           animation: float-slow 15s ease-in-out infinite;
+        }
+
+        @font-face {
+          font-family: 'InternFont';
+          src: url('/navheadingfonts/Polea Extra Bold DEMO.otf') format('opentype');
+          font-weight: normal;
+          font-style: normal;
+          font-display: swap;
+        }
+
+        .intern-text {
+          font-family: 'InternFont', sans-serif;
+          letter-spacing: 0.08em;
         }
 
         .animate-float-slower {

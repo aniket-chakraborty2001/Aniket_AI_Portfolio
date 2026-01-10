@@ -95,7 +95,7 @@ const Navbar = () => {
                     </span>
 
                     {/* Text */}
-                    <span className="relative z-10 text-lg md:text-lg tracking-wide">
+                    <span className="nav-text relative z-10 text-lg md:text-lg tracking-wide">
                       {item.label}
                     </span>
 
@@ -178,6 +178,20 @@ const Navbar = () => {
             0 8px 32px 0 rgba(0, 0, 0, 0.5),
             0 0 30px rgba(0, 240, 255, 0.2),
             0 0 60px rgba(138, 43, 226, 0.2);
+        }
+        
+        @font-face {
+          font-family: 'NavbarFont';
+          src: url('/navheadingfonts/Polea Extra Bold DEMO.otf') format('opentype');
+          font-weight: normal;
+          font-style: normal;
+          font-display: swap;
+        }
+
+        .nav-text {
+          font-family: 'NavbarFont', sans-serif;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
         }
 
         /* Nav Item Animations */
