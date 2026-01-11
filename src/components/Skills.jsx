@@ -94,16 +94,17 @@ const Skills = () => {
   
   // Auto-play carousel
   useEffect(() => {
-    autoPlayRef.current = setInterval(() => {
-      nextSkill();
-    }, window.innerWidth < 768 ? 3000 : 2000);
+    if (typeof window === 'undefined') return;
 
-    return () => {
-      if (autoPlayRef.current) {
-        clearInterval(autoPlayRef.current);
-      }
-    };
-  }, [currentIndex]);
+    autoPlayRef.current = setInterval(
+      () => {
+        setCurrentIndex((prev) => (prev + 1) % SKILLS.length);
+      },
+      isMobile ? 3000 : 2000
+    );
+
+    return () => clearInterval(autoPlayRef.current);
+  }, [isMobile]);
 
   const nextSkill = () => {
     setCurrentIndex((prev) => (prev + 1) % SKILLS.length);
@@ -578,7 +579,7 @@ const Skills = () => {
           position: relative;
           background: rgba(15, 10, 31, 0.6);
           backdrop-filter: blur(20px);
-          // -webkit-backdrop-filter: blur(20px);
+          /* -webkit-backdrop-filter: blur(20px); */
           border: 1px solid rgba(139, 92, 246, 0.3);
           border-radius: 1rem;
           padding: 1.5rem;
@@ -664,16 +665,12 @@ const Skills = () => {
             width: 2.5rem;
             height: 2.5rem;
           }
-
-          .carousel-skill {
-            transform: translateX(${skill => skill.offset * 100}px) scale(${skill => skill.offset === 0 ? 1.3 : 0.6}) !important;
-          }
         }
 
-      // @media (max-width: 768px) {
-      //   .skills-carousel {
-      //     height: 220px;
-      //   }
+      @media (max-width: 768px) {
+        .skills-carousel {
+          height: 220px;
+        }
 
         .skill-carousel-card {
           width: 90px;
