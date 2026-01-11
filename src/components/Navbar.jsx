@@ -606,7 +606,7 @@ const Navbar = () => {
             </div>
 
             {/* Navigation Items */}
-            <ul className="hidden md:flex items-center space-x-2 flex-nowrap">
+            <ul className="hidden md:flex items-center space-x-2 flex-nowrap flex-1 justify-center">
               {navItems.map((item) => (
                 <li key={item.id} className="nav-item-wrapper">
                   <button
@@ -639,7 +639,7 @@ const Navbar = () => {
             </ul>
 
             {/* Right-side actions */}
-            <div className="hidden md:flex items-center gap-4 ml-6">
+            <div className="hidden md:flex items-center gap-4">
             
             {/* GitHub */}
             <div className="tooltip-wrapper">
