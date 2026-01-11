@@ -587,9 +587,9 @@ const Navbar = () => {
           scrolled ? 'py-2' : 'py-3'
         }`}
       >
-        <div className="w-full px-4 md:px-10">
+        <div className="w-full px-4 md:px-10 max-w-10xl mx-auto">
           <div
-            className={`glass-navbar rounded-full px-8 py-3 flex items-center justify-between gap-8 transition-all duration-300 ${
+            className={`glass-navbar rounded-full px-12 py-3 flex items-center gap-6 overflow-hidden transition-all duration-300 ${
               scrolled ? 'shadow-glow-strong' : 'shadow-glow'
             }`}
           >
@@ -649,9 +649,9 @@ const Navbar = () => {
                 rel="noopener noreferrer"
                 className="icon-btn"
               >
-                <Github size={20} />  
+                <Github size={23} />  
               </a>
-              <span className="tooltip">GitHub</span>
+              {/* <span className="tooltip">GitHub</span> */}
             </div>
 
             {/* LinkedIn */}
@@ -662,9 +662,9 @@ const Navbar = () => {
                 rel="noopener noreferrer"
                 className="icon-btn"
               >
-                <Linkedin size={20} />
+                <Linkedin size={23} />
               </a>
-              <span className="tooltip">LinkedIn</span>
+              {/* <span className="tooltip">LinkedIn</span> */}
             </div>
 
             {/* Resume */}
@@ -674,9 +674,9 @@ const Navbar = () => {
                 download
                 className="icon-btn resume-btn"
               >
-                <Download size={20} />
+                <Download size={23} />
               </a>
-              <span className="tooltip">Resume</span>
+              {/* <span className="tooltip">Resume</span> */}
             </div>
             </div>
 
