@@ -60,7 +60,7 @@ const Navbar = () => {
       >
         <div className="w-full px-4 md:px-10 max-w-10xl mx-auto">
           <div
-            className={`glass-navbar rounded-full px-12 py-3 flex items-center gap-6 overflow-hidden transition-all duration-300 ${
+            className={`glass-navbar rounded-full px-12 py-3 flex items-center gap-3 overflow-hidden transition-all duration-300 ${
               scrolled ? 'shadow-glow-strong' : 'shadow-glow'
             }`}
           >
@@ -110,7 +110,7 @@ const Navbar = () => {
             </ul>
 
             {/* Right-side actions */}
-            <div className="hidden md:flex items-center gap-4">
+            <div className="hidden md:flex items-center gap-2">
             
             {/* GitHub */}
             <div className="tooltip-wrapper">
@@ -187,7 +187,7 @@ const Navbar = () => {
       {/* Mobile Menu */ }
       {menuOpen && (
         <div className="fixed top-[100px] left-0 right-0 z-40 md:hidden px-6">
-          <div className="glass-navbar rounded-2xl p-6 flex flex-col gap-4 shadow-glow-strong">
+          <div className="glass-navbar rounded-2xl p-6 flex flex-col gap-2 shadow-glow-strong">
       
             {/* Nav Items */}
             {navItems.map(item => (
@@ -208,7 +208,7 @@ const Navbar = () => {
             <div className="h-px bg-white/20 my-2" />
 
             {/* Icons */}
-            <div className="flex justify-center gap-6">
+            <div className="flex justify-center gap-2">
               <a
                 href="https://github.com/aniket-chakraborty2001"
                 target="_blank"
