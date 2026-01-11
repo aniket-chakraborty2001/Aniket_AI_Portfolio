@@ -127,18 +127,40 @@ const Welcome = ({ onComplete }) => {
         .dot {
           width: 12px;
           height: 12px;
-          background: linear-gradient(135deg, #06b6d4, #8b5cf6);
           border-radius: 50%;
           animation: wave 1.5s ease-in-out infinite;
-          box-shadow: 0 0 20px rgba(6, 182, 212, 0.6);
         }
 
-        .dot-1 { animation-delay: 0s; }
-        .dot-2 { animation-delay: 0.1s; }
-        .dot-3 { animation-delay: 0.2s; }
-        .dot-4 { animation-delay: 0.3s; }
-        .dot-5 { animation-delay: 0.4s; }
-        .dot-6 { animation-delay: 0.5s; }
+        .dot-1 { 
+          animation-delay: 0s;
+          background: #06b6d4;
+          box-shadow: 0 0 18px rgba(6, 182, 212, 0.8); 
+        }
+        .dot-2 { 
+          animation-delay: 0.1s;
+          background: #8b5cf6;
+          box-shadow: 0 0 18px rgba(139, 92, 246, 0.8);
+        }
+        .dot-3 { 
+          animation-delay: 0.2s;
+          background: #facc15;
+          box-shadow: 0 0 18px rgba(250, 204, 21, 0.8); 
+        }
+        .dot-4 { 
+          animation-delay: 0.3s;
+          background: #ec4899;
+          box-shadow: 0 0 18px rgba(236, 72, 153, 0.8); 
+        }
+        .dot-5 { 
+          animation-delay: 0.4s;
+          background: #22c55e;
+          box-shadow: 0 0 18px rgba(34, 197, 94, 0.8); 
+        }
+        .dot-6 { 
+          animation-delay: 0.5s;
+          background: #06b6d4;
+          box-shadow: 0 0 18px rgba(6, 182, 212, 0.8); 
+        }
 
         @keyframes wave {
           0%, 100% {
