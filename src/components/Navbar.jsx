@@ -649,7 +649,7 @@ const Navbar = () => {
                 rel="noopener noreferrer"
                 className="icon-btn"
               >
-                <Github size={26} />  
+                <Github size={20} />  
               </a>
               <span className="tooltip">GitHub</span>
             </div>
@@ -662,7 +662,7 @@ const Navbar = () => {
                 rel="noopener noreferrer"
                 className="icon-btn"
               >
-                <Linkedin size={26} />
+                <Linkedin size={20} />
               </a>
               <span className="tooltip">LinkedIn</span>
             </div>
@@ -674,7 +674,7 @@ const Navbar = () => {
                 download
                 className="icon-btn resume-btn"
               >
-                <Download size={26} />
+                <Download size={20} />
               </a>
               <span className="tooltip">Resume</span>
             </div>
@@ -743,7 +743,7 @@ const Navbar = () => {
                 target="_blank"
                 className="icon-btn"
               >
-                <Github size={26} />
+                <Github size={20} />
               </a>
 
               <a
@@ -751,7 +751,7 @@ const Navbar = () => {
                 target="_blank"
                 className="icon-btn"
               >
-                <Linkedin size={26} />
+                <Linkedin size={20} />
               </a>
 
               <a
@@ -759,7 +759,7 @@ const Navbar = () => {
                 download
                 className="icon-btn resume-btn"
               >
-                <Download size={26} />
+                <Download size={20} />
               </a>
             </div>
           </div>
