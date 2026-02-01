@@ -1,13 +1,12 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight, Code, Layers } from 'lucide-react';
+import { Code, Layers } from 'lucide-react';
 
 const Projects = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [currentSlide, setCurrentSlide] = useState(0);
   const sectionRef = useRef(null);
-  const autoPlayRef = useRef(null);
+  const cardsRef = useRef([]);
 
   const projects = [
     {
@@ -78,7 +77,27 @@ const Projects = () => {
     }
   ];
 
-  /* Intersection Observer */
+  /* Intersection Observer for cards stagger animation */
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('card-visible');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    cardsRef.current.forEach((card) => {
+      if (card) observer.observe(card);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  /* Section visibility */
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => entry.isIntersecting && setIsVisible(true),
@@ -87,18 +106,6 @@ const Projects = () => {
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
-
-  /* Auto-play */
-  useEffect(() => {
-    autoPlayRef.current = setInterval(nextSlide, 5000);
-    return () => clearInterval(autoPlayRef.current);
-  }, [currentSlide]);
-
-  const nextSlide = () =>
-    setCurrentSlide((prev) => (prev + 1) % projects.length);
-
-  const prevSlide = () =>
-    setCurrentSlide((prev) => (prev - 1 + projects.length) % projects.length);
 
   return (
     <section
@@ -110,7 +117,7 @@ const Projects = () => {
           'linear-gradient(to bottom, #0a0a1a 0%, #120a20 50%, #0a0a1a 100%)'
       }}
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-[1600px] mx-auto">
 
         {/* Section Header */}
         <div className="projects-header text-center mb-16">
@@ -122,81 +129,66 @@ const Projects = () => {
           </p>
         </div>
 
-        {/* ================= PROJECTS CAROUSEL ================= */}
-        <div className="relative overflow-hidden rounded-3xl mb-24">
-          <div
-            className="flex transition-transform duration-700"
-            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-          >
-            {projects.map((project, index) => (
-              <div key={index} className="min-w-full p-4">
-                <div className="project-card">
+        {/* ================= PROJECTS GRID ================= */}
+        <div className="projects-grid mb-24">
+          {projects.map((project, index) => (
+            <div
+              key={index}
+              ref={(el) => (cardsRef.current[index] = el)}
+              className="project-card-wrapper"
+              style={{ animationDelay: `${index * 0.1}s` }}
+            >
+              <div className="project-card-modern">
+                
+                {/* Animated Background Gradient */}
+                <div className="card-bg-gradient"></div>
+                
+                {/* Image Container */}
+                <div className="project-image-wrapper">
+                  {project.image ? (
+                    <img
+                      src={project.image}
+                      alt={project.name}
+                      className="project-image"
+                    />
+                  ) : (
+                    <div className="project-image-fallback">
+                      <Layers className="w-20 h-20 text-cyan-400 opacity-50" />
+                    </div>
+                  )}
+                  
+                  {/* Overlay on hover */}
+                  <div className="image-overlay"></div>
+                </div>
 
-                  {/* Image */}
-                  <div className="project-image-container">
-                    {project.image? (
-                      <img
-                        src={project.image}
-                        alt={project.name}
-                        className="w-full h-full object-contain rounded-xl"
-                      />
-                    ) : (
-                      <div className="project-image-fallback">
-                        <Layers className="w-24 h-24 text-cyan-400 opacity-50" />
-                      </div>
-                    )}
-                  </div>
+                {/* Content */}
+                <div className="project-content">
+                  <h3 className="project-title-modern">{project.name}</h3>
+                  <p className="project-description-modern">
+                    {project.description}
+                  </p>
 
-                  {/* Content */}
-                  <div className="project-details">
-                    <h3 className="project-title">{project.name}</h3>
-                    <p className="project-description">
-                      {project.description}
-                    </p>
+                  {/* Tech Stack */}
+                  <div className="tech-stack-modern">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Code className="w-4 h-4 text-green-400" />
+                      <span className="text-yellow-400 text-lg font-semibold">
+                        Tech Stack
+                      </span>
+                    </div>
 
-                    <div className="tech-stack">
-                      <div className="flex items-center gap-2 mb-3">
-                        <Code className="w-4 h-4 text-cyan-400" />
-                        <span className="text-gray-400 text-sm font-semibold">
-                          Tech Stack
+                    <div className="flex flex-wrap gap-2">
+                      {project.techStack.map((tech, idx) => (
+                        <span key={idx} className="tech-badge-modern">
+                          {tech}
                         </span>
-                      </div>
-
-                      <div className="flex flex-wrap gap-2">
-                        {project.techStack.map((tech, idx) => (
-                          <span key={idx} className="tech-badge">
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
+                      ))}
                     </div>
                   </div>
-
                 </div>
+
               </div>
-            ))}
-          </div>
-
-          {/* Navigation */}
-          <button onClick={prevSlide} className="carousel-nav left">
-            <ChevronLeft />
-          </button>
-          <button onClick={nextSlide} className="carousel-nav right">
-            <ChevronRight />
-          </button>
-        </div>
-
-        {/* The Crousal Dot Animation */}
-        <div className="flex justify-center gap-3 mt-8 mb-16">
-          {projects.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`carousel-dot ${
-                currentSlide === index ? "active" : ""
-              }`}
-              aria-label={`Go to project ${index + 1}`}
-            />
+            </div>
           ))}
         </div>
 
@@ -218,7 +210,7 @@ const Projects = () => {
 
               {/* Image */}
               <div className="current-project-image-container">
-                {true ? (   /* later replace `true` with a condition if needed */
+                {true ? (
                   <img
                     src="/projects/current_project.jpg"
                     alt="Ball Tracking in Cricket with Hawk Eye View"
@@ -270,15 +262,6 @@ const Projects = () => {
 
       {/* ================= STYLES ================= */}
       <style jsx>{`
-        .project-card {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 2rem;
-          background: rgba(15, 10, 31, 0.85);
-          border-radius: 2rem;
-          padding: 2rem;
-        }
-
         @font-face {
           font-family: 'ExpFont';
           src: url('/navheadingfonts/Polea Extra Bold DEMO.otf') format('opentype');
@@ -292,94 +275,251 @@ const Projects = () => {
           letter-spacing: 0.08em;
         }
 
-        .project-image-container,
+        /* ================= PROJECTS GRID ================= */
+        .projects-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 2rem;
+          padding: 0 1rem;
+        }
+
+        @media (max-width: 1024px) {
+          .projects-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .projects-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            padding: 0;
+          }
+        }
+
+        /* Card Wrapper with Stagger Animation */
+        .project-card-wrapper {
+          opacity: 0;
+          transform: translateY(30px);
+          transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .project-card-wrapper.card-visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        /* Modern Project Card */
+        .project-card-modern {
+          position: relative;
+          background: rgba(15, 10, 31, 0.6);
+          border-radius: 1.5rem;
+          overflow: hidden;
+          border: 1px solid rgba(139, 92, 246, 0.2);
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          cursor: pointer;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .project-card-modern:hover {
+          transform: translateY(-8px);
+          border-color: rgba(139, 92, 246, 0.5);
+          box-shadow: 
+            0 20px 40px rgba(139, 92, 246, 0.3),
+            0 0 60px rgba(6, 182, 212, 0.2);
+        }
+
+        /* Animated Background Gradient */
+        .card-bg-gradient {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(
+            135deg,
+            rgba(139, 92, 246, 0.05) 0%,
+            rgba(6, 182, 212, 0.05) 100%
+          );
+          opacity: 0;
+          transition: opacity 0.4s ease;
+          z-index: 0;
+        }
+
+        .project-card-modern:hover .card-bg-gradient {
+          opacity: 1;
+        }
+
+        /* Image Wrapper */
+        .project-image-wrapper {
+          position: relative;
+          height: 200px;
+          overflow: hidden;
+          border-radius: 1.5rem 1.5rem 0 0;
+          background: linear-gradient(
+            135deg,
+            rgba(6, 182, 212, 0.1),
+            rgba(139, 92, 246, 0.1)
+          );
+        }
+
+        .project-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .project-card-modern:hover .project-image {
+          transform: scale(1.1);
+        }
+
+        /* Mobile touch scale effect */
+        @media (max-width: 768px) {
+          .project-card-modern:active .project-image {
+            transform: scale(1.1);
+          }
+        }
+
+        /* Image Overlay */
+        .image-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(
+            to bottom,
+            rgba(139, 92, 246, 0) 0%,
+            rgba(139, 92, 246, 0.3) 100%
+          );
+          opacity: 0;
+          transition: opacity 0.4s ease;
+        }
+
+        .project-card-modern:hover .image-overlay {
+          opacity: 1;
+        }
+
+        .project-image-fallback {
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        /* Content */
+        .project-content {
+          padding: 1.5rem;
+          position: relative;
+          z-index: 1;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .project-title-modern {
+          font-size: 1.5rem;
+          font-weight: 700;
+          background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+          margin-bottom: 0.75rem;
+          transition: all 0.3s ease;
+        }
+
+        .project-card-modern:hover .project-title-modern {
+          background: linear-gradient(135deg, #22c55e, #06b6d4);
+          -webkit-background-clip: text;
+          background-clip: text;
+        }
+
+        .project-description-modern {
+          color: #d1d5db;
+          line-height: 1.6;
+          font-size: 0.9rem;
+          margin-bottom: 1rem;
+          flex: 1;
+        }
+
+        /* Tech Stack */
+        .tech-stack-modern {
+          margin-top: auto;
+        }
+
+        .tech-badge-modern {
+          display: inline-block;
+          padding: 0.5rem 1rem;
+          border-radius: 9999px;
+          background: rgba(36, 218, 84, 0.5);
+          color: #dbea16;
+          font-size: 0.75rem;
+          font-weight: 500;
+          border: 1px solid rgba(139, 92, 246, 0.3);
+          transition: all 0.3s ease;
+        }
+
+        .tech-badge-modern:hover {
+          background: rgba(139, 92, 246, 0.3);
+          border-color: rgba(139, 92, 246, 0.5);
+          transform: translateY(-2px);
+        }
+
+        /* ================= CURRENT PROJECT ================= */
+        .current-project-card {
+          background: rgba(15, 10, 31, 0.85);
+          border-radius: 2rem;
+          padding: 3rem;
+          border: 1px solid rgba(34, 197, 94, 0.3);
+          transition: all 0.4s ease;
+        }
+
+        .current-project-card:hover {
+          border-color: rgba(34, 197, 94, 0.6);
+          box-shadow: 
+            0 20px 40px rgba(34, 197, 94, 0.2),
+            0 0 60px rgba(6, 182, 212, 0.15);
+        }
+
         .current-project-image-container {
           height: 300px;
           border-radius: 1rem;
           overflow: hidden;
         }
 
-        .project-image-fallback,
         .current-project-image-fallback {
           height: 100%;
           display: flex;
           align-items: center;
           justify-content: center;
-          background: linear-gradient(135deg, rgba(6,182,212,.1), rgba(139,92,246,.1));
+          background: linear-gradient(
+            135deg,
+            rgba(34, 197, 94, 0.1),
+            rgba(6, 182, 212, 0.1)
+          );
         }
 
-        .project-title {
-          font-size: 2rem;
-          font-weight: 700;
-          background: linear-gradient(135deg, #06b6d4, #8b5cf6);
-          -webkit-background-clip: text;
-          color: transparent;
-        }
-
-        .project-description {
-          color: #d1d5db;
-          margin: 1rem 0;
-          line-height: 1.7;
-        }
-
-        .tech-badge,
         .tech-badge-large {
-          padding: 0.45rem 1rem;
+          padding: 0.5rem 1rem;
           border-radius: 9999px;
-          background: rgba(139,92,246,.2);
-          color: #c4b5fd;
+          background: rgba(34, 197, 94, 0.2);
+          color: #86efac;
           font-size: 0.8rem;
-        }
-
-        .current-project-card {
-          background: rgba(15, 10, 31, 0.85);
-          border-radius: 2rem;
-          padding: 3rem;
-        }
-
-        .carousel-nav {
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          background: rgba(139,92,246,.3);
-          border-radius: 50%;
-          padding: .6rem;
-          color: white;
-        }
-
-        .carousel-nav.left { left: 1rem; }
-        .carousel-nav.right { right: 1rem; }
-
-        @media (max-width: 900px) {
-          .project-card {
-            grid-template-columns: 1fr;
-          }
-        }
-
-        .carousel-dot {
-          width: 12px;
-          height: 12px;
-          border-radius: 9999px;
-          background: rgba(139, 92, 246, 0.4);
-          cursor: pointer;
+          border: 1px solid rgba(34, 197, 94, 0.3);
           transition: all 0.3s ease;
-          border: none;
         }
 
-        .carousel-dot:hover {
-          transform: scale(1.2);
-          background: rgba(139, 92, 246, 0.7);
+        .tech-badge-large:hover {
+          background: rgba(34, 197, 94, 0.3);
+          transform: translateY(-2px);
         }
 
-        .carousel-dot.active {
-          background: linear-gradient(135deg, #22c55e, #06b6d4);
-          box-shadow:
-            0 0 10px rgba(34, 197, 94, 0.8),
-            0 0 20px rgba(6, 182, 212, 0.6);
-          transform: scale(1.4);
-        }
-        
-        @keyframes gradient { 
+        /* Gradient Animation */
+        @keyframes gradient {
           0% { background-position: 0% 50%; }
           50% { background-position: 100% 50%; }
           100% { background-position: 0% 50%; }
@@ -389,56 +529,34 @@ const Projects = () => {
           animation: gradient 4s ease infinite;
         }
 
-        .bg-300\% {
+        .bg-300\\% {
           background-size: 300%;
         }
 
+        /* ================= RESPONSIVE ================= */
         @media (max-width: 768px) {
-          .project-card {
+          .project-content {
             padding: 1.5rem;
-            gap: 1.5rem;
           }
-        }
 
-        @media (max-width: 768px) {
-          .project-image-container,
-          .current-project-image-container {
+          .project-image-wrapper {
             height: 200px;
           }
-        }
 
-        @media (max-width: 768px) {
-          .project-title {
-            font-size: 1.6rem;
+          .project-title-modern {
+            font-size: 1.3rem;
           }
 
-          .project-description {
-            font-size: 0.95rem;
+          .project-description-modern {
+            font-size: 0.9rem;
             line-height: 1.6;
           }
-        }
 
-        @media (max-width: 768px) {
-          .tech-badge,
-          .tech-badge-large {
+          .tech-badge-modern {
             font-size: 0.7rem;
             padding: 0.4rem 0.8rem;
           }
-        }
-          
-        @media (max-width: 768px) {
-          .carousel-nav {
-            display: none;
-          }
-        }
 
-        @media (max-width: 768px) {
-          .project-card {
-            border-radius: 1.5rem;
-          }
-        }
-
-        @media (max-width: 768px) {
           .current-project-card {
             padding: 1.75rem;
           }
@@ -451,18 +569,27 @@ const Projects = () => {
             font-size: 0.95rem;
             line-height: 1.6;
           }
-        }
 
-        @media (max-width: 768px) {
-          .carousel-dot:hover {
+          .current-project-image-container {
+            height: 200px;
+          }
+
+          .projects-header {
+            margin-bottom: 2.5rem;
+          }
+
+          .project-card-modern:hover {
             transform: none;
           }
+
+          .project-card-modern:active {
+            transform: translateY(-4px);
+          }
         }
 
-        @media (max-width: 768px) {
-          .projects-header {
-            margin-bottom: 2.5rem; /* was effectively ~4rem */
-          }
+        /* Smooth scroll behavior */
+        html {
+          scroll-behavior: smooth;
         }
       `}</style>
     </section>
