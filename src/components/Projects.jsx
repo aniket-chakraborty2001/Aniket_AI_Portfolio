@@ -171,8 +171,8 @@ const Projects = () => {
                   {/* Tech Stack */}
                   <div className="tech-stack-modern">
                     <div className="flex items-center gap-2 mb-3">
-                      <Code className="w-4 h-4 text-green-400" />
-                      <span className="text-yellow-400 text-lg font-semibold">
+                      <Code className="w-4 h-4 text-cyan-400" />
+                      <span className="text-gray-400 text-sm font-semibold">
                         Tech Stack
                       </span>
                     </div>
@@ -455,8 +455,8 @@ const Projects = () => {
           display: inline-block;
           padding: 0.5rem 1rem;
           border-radius: 9999px;
-          background: rgba(36, 218, 84, 0.5);
-          color: #dbea16;
+          background: rgba(139, 92, 246, 0.15);
+          color: #c4b5fd;
           font-size: 0.75rem;
           font-weight: 500;
           border: 1px solid rgba(139, 92, 246, 0.3);
@@ -527,6 +527,7 @@ const Projects = () => {
 
         .animate-gradient {
           animation: gradient 4s ease infinite;
+          background-size: 300%;
         }
 
         .bg-300\\% {
